@@ -1,6 +1,6 @@
 @php
-    $seoDescription = 'Browse certified healthcare training courses from Heirs Hospital — learn at your own pace and get certified.';
-    $seoImage = asset('asset/logo.jpeg');
+    $seoDescription = 'Browse certified healthcare training courses from Fosterheirs — learn at your own pace and get certified.';
+    $seoImage = null;
     $seoUrl = route('courses.index');
 @endphp
 <!DOCTYPE html>
@@ -8,21 +8,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heirs Hospital Courses &amp; Certification</title>
+    <title>Fosterheirs Courses &amp; Certification</title>
     <meta name="description" content="{{ $seoDescription }}">
     <link rel="canonical" href="{{ $seoUrl }}">
 
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Heirs Hospital">
-    <meta property="og:title" content="Heirs Hospital Courses &amp; Certification">
+    <meta property="og:site_name" content="Fosterheirs">
+    <meta property="og:title" content="Fosterheirs Courses &amp; Certification">
     <meta property="og:description" content="{{ $seoDescription }}">
-    <meta property="og:image" content="{{ $seoImage }}">
+    @if ($seoImage)
+        <meta property="og:image" content="{{ $seoImage }}">
+    @endif
     <meta property="og:url" content="{{ $seoUrl }}">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Heirs Hospital Courses &amp; Certification">
+    <meta name="twitter:title" content="Fosterheirs Courses &amp; Certification">
     <meta name="twitter:description" content="{{ $seoDescription }}">
-    <meta name="twitter:image" content="{{ $seoImage }}">
+    @if ($seoImage)
+        <meta name="twitter:image" content="{{ $seoImage }}">
+    @endif
 
     <script src="https://unpkg.com/lucide@latest"></script>
     @vite('resources/css/app.css')
@@ -43,7 +47,7 @@
     <div class="pt-16 sm:pt-20 pb-8 border-b border-gray-100">
         <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full mb-3">
             <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
-            Heirs Hospital Learning
+            Fosterheirs Learning
         </span>
         <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight max-w-2xl">
             Courses &amp; certification from our specialists
@@ -237,7 +241,7 @@
 
 <footer class="bg-gray-900 text-gray-400 py-8">
     <div class="max-w-7xl mx-auto px-4 text-center text-sm">
-        &copy; {{ date('Y') }} Heirs Hospital. All Rights Reserved.
+        &copy; {{ date('Y') }} Fosterheirs. All Rights Reserved.
     </div>
 </footer>
 

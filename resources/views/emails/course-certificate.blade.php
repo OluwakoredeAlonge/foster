@@ -56,7 +56,7 @@
         <p>Thank you for learning with us.</p>
 
         <div class="footer">
-            &copy; {{ date('Y') }} Heirs Hospital. All rights reserved.
+            &copy; {{ date('Y') }} Fosterheirs. All rights reserved.
         </div>
     </div>
 </body>

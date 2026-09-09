@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-9">
         <a href="{{ route('home') }}" class="flex items-center gap-1.5 hover:text-white transition">
             <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-            Back to Heirs Hospital
+            Back to Fosterheirs
         </a>
         <div class="flex items-center gap-4">
             @auth
@@ -25,11 +25,11 @@
 <header class="bg-white border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
         <a href="{{ route('courses.index') }}" class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-full overflow-hidden bg-emerald-600 flex items-center justify-center flex-shrink-0 ring-2 ring-emerald-100">
-                <img src="{{ asset('asset/logo.jpeg') }}" alt="Heirs Hospital" class="w-full h-full object-cover">
+            <div class="w-11 h-11 rounded-full overflow-hidden bg-emerald-700 flex items-center justify-center flex-shrink-0 ring-2 ring-emerald-100">
+                <i data-lucide="cross" class="w-5 h-5 text-white"></i>
             </div>
             <div>
-                <h1 class="text-lg font-extrabold text-gray-900 leading-tight tracking-tight">Heirs Hospital</h1>
+                <h1 class="text-lg font-extrabold text-gray-900 leading-tight tracking-tight">Fosterheirs</h1>
                 <p class="text-[11px] uppercase tracking-wider text-emerald-600 font-bold">Courses &amp; Certification</p>
             </div>
         </a>

@@ -41,7 +41,7 @@
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Account Name</label>
                 <input type="text" name="account_name" value="{{ old('account_name', $settings->account_name) }}"
-                    placeholder="e.g., Heirs Hospital Limited"
+                    placeholder="e.g., Fosterheirs Limited"
                     class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent @error('account_name') border-red-400 @else border-gray-300 @enderror">
                 @error('account_name')
                     <p class="text-xs text-red-600 mt-1">{{ $message }}</p>

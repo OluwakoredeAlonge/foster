@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Courses | Heirs Hospital</title>
+    <title>My Courses | Fosterheirs</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -60,7 +60,7 @@
 
 <footer class="bg-gray-900 text-gray-400 py-8">
     <div class="max-w-7xl mx-auto px-4 text-center text-sm">
-        &copy; {{ date('Y') }} Heirs Hospital. All Rights Reserved.
+        &copy; {{ date('Y') }} Fosterheirs. All Rights Reserved.
     </div>
 </footer>
 

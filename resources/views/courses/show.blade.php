@@ -1,8 +1,8 @@
 @php
     $seoDescription = $course->details
         ? \Illuminate\Support\Str::limit(preg_replace('/\s+/', ' ', trim($course->details)), 160)
-        : "{$course->title} — a course from Heirs Hospital. ₦" . number_format($course->price, 2) . ", {$course->weeks->count()} week" . ($course->weeks->count() === 1 ? '' : 's') . " of content.";
-    $seoImage = $course->course_image_path ?: asset('asset/logo.jpeg');
+        : "{$course->title} — a course from Fosterheirs. ₦" . number_format($course->price, 2) . ", {$course->weeks->count()} week" . ($course->weeks->count() === 1 ? '' : 's') . " of content.";
+    $seoImage = $course->course_image_path;
     $seoUrl = route('courses.show', $course);
 @endphp
 <!DOCTYPE html>
@@ -11,23 +11,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $course->title }} | Heirs Hospital</title>
+    <title>{{ $course->title }} | Fosterheirs</title>
     <meta name="description" content="{{ $seoDescription }}">
     <link rel="canonical" href="{{ $seoUrl }}">
 
     {{-- Open Graph / social share preview --}}
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Heirs Hospital">
+    <meta property="og:site_name" content="Fosterheirs">
     <meta property="og:title" content="{{ $course->title }}">
     <meta property="og:description" content="{{ $seoDescription }}">
-    <meta property="og:image" content="{{ $seoImage }}">
+    @if ($seoImage)
+        <meta property="og:image" content="{{ $seoImage }}">
+    @endif
     <meta property="og:url" content="{{ $seoUrl }}">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $course->title }}">
     <meta name="twitter:description" content="{{ $seoDescription }}">
-    <meta name="twitter:image" content="{{ $seoImage }}">
+    @if ($seoImage)
+        <meta name="twitter:image" content="{{ $seoImage }}">
+    @endif
 
     <script type="application/ld+json">
         {!! json_encode([
@@ -38,7 +42,7 @@
             'image' => $seoImage,
             'provider' => [
                 '@type' => 'Organization',
-                'name' => 'Heirs Hospital',
+                'name' => 'Fosterheirs',
                 'sameAs' => route('home'),
             ],
             'offers' => [
@@ -101,10 +105,10 @@
 
         <div class="flex flex-wrap items-center gap-4 mt-4 text-sm">
             <div class="flex items-center gap-1.5">
-                <div class="w-6 h-6 rounded-full overflow-hidden bg-emerald-600 flex items-center justify-center flex-shrink-0">
-                    <img src="{{ asset('asset/logo.jpeg') }}" alt="Heirs Hospital" class="w-full h-full object-cover">
+                <div class="w-6 h-6 rounded-full overflow-hidden bg-emerald-700 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="cross" class="w-3.5 h-3.5 text-white"></i>
                 </div>
-                <span class="font-medium text-gray-700">Heirs Hospital</span>
+                <span class="font-medium text-gray-700">Fosterheirs</span>
             </div>
             <div class="flex items-center gap-1 text-amber-500">
                 @for($i = 1; $i <= 5; $i++)
@@ -523,7 +527,7 @@
 
 <footer class="bg-gray-900 text-gray-400 py-8">
     <div class="max-w-7xl mx-auto px-4 text-center text-sm">
-        &copy; {{ date('Y') }} Heirs Hospital. All Rights Reserved.
+        &copy; {{ date('Y') }} Fosterheirs. All Rights Reserved.
     </div>
 </footer>
 

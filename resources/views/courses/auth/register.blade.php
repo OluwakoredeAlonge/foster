@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Heirs Hospital Courses</title>
+    <title>Register | Fosterheirs Courses</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -19,10 +19,10 @@
         {{-- Side panel --}}
         <div class="hero-gradient text-white p-8 sm:p-10 hidden md:flex flex-col justify-between">
             <div>
-                <div class="w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/30 mb-6">
-                    <img src="{{ asset('asset/logo.jpeg') }}" alt="Heirs Hospital" class="w-full h-full object-cover">
+                <div class="w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/30 mb-6 bg-white/10 flex items-center justify-center">
+                    <i data-lucide="cross" class="w-5 h-5 text-white"></i>
                 </div>
-                <h2 class="text-2xl font-extrabold leading-tight mb-3">Start learning with Heirs Hospital</h2>
+                <h2 class="text-2xl font-extrabold leading-tight mb-3">Start learning with Fosterheirs</h2>
                 <p class="text-white/80 text-sm leading-relaxed">
                     Create a free account to buy courses, track your progress, and leave reviews.
                 </p>
