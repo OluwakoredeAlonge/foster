@@ -51,11 +51,13 @@ return [
     | Public Fields Allow-List
     |--------------------------------------------------------------------------
     |
-    | Only these fields are ever forwarded to the public site. Everything
-    | else the partner API returns (gated week/resource titles, YouTube
-    | links, PDF download URLs, etc.) is stripped before the response
-    | leaves this server. Adjust keys here once the partner's real field
-    | names are confirmed, no controller changes needed.
+    | Only these fields are ever forwarded to the public site. Matches
+    | App\Http\Resources\CourseApiResource on the partner app (confirmed
+    | by reading its source directly). 'weeks' and 'materials' hold the
+    | gated week/resource titles, YouTube links and PDF download URLs,
+    | those are deliberately left off this list and never reach the
+    | browser. If the partner's resource shape changes, update this list,
+    | no controller changes needed.
     |
     */
 
@@ -63,14 +65,19 @@ return [
         'id',
         'slug',
         'title',
+        'type',
+        'details',
         'price',
-        'currency',
-        'description',
+        'original_price',
+        'discount_percentage',
+        'image_url',
+        'has_certificate',
+        'requires_registration',
+        'access_duration_months',
+        'is_lifetime_access',
+        'rating_avg',
+        'ratings_count',
         'category',
-        'certificate',
-        'access_duration',
-        'rating',
-        'thumbnail',
     ],
 
 ];

@@ -1,0 +1,43 @@
+{{-- Slim utility strip --}}
+<div class="bg-gray-900 text-gray-300 text-xs">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-9">
+        <a href="{{ route('home') }}" class="flex items-center gap-1.5 hover:text-white transition">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            Back to Heirs Hospital
+        </a>
+        <div class="flex items-center gap-4">
+            @auth
+                <span class="text-gray-400 hidden sm:inline">Hi, {{ Str::before(auth()->user()->name, ' ') }}</span>
+                <a href="{{ route('courses.orders.index') }}" class="hover:text-white transition">My Courses</a>
+                <form method="POST" action="{{ route('courses.logout') }}" class="inline">
+                    @csrf
+                    <button type="submit" class="hover:text-white transition">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('courses.login') }}" class="hover:text-white transition">Login</a>
+                <a href="{{ route('courses.register') }}" class="hover:text-white transition font-semibold">Register</a>
+            @endauth
+        </div>
+    </div>
+</div>
+
+{{-- Brand header --}}
+<header class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+        <a href="{{ route('courses.index') }}" class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full overflow-hidden bg-emerald-600 flex items-center justify-center flex-shrink-0 ring-2 ring-emerald-100">
+                <img src="{{ asset('asset/logo.jpeg') }}" alt="Heirs Hospital" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <h1 class="text-lg font-extrabold text-gray-900 leading-tight tracking-tight">Heirs Hospital</h1>
+                <p class="text-[11px] uppercase tracking-wider text-emerald-600 font-bold">Courses &amp; Certification</p>
+            </div>
+        </a>
+
+        <a href="{{ route('courses.index') }}"
+           class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-gray-500 hover:text-emerald-700 transition">
+            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+            Browse all courses
+        </a>
+    </div>
+</header>
