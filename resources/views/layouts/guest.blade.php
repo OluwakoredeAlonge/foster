@@ -7,8 +7,8 @@
 
         <title>{{ config('app.name', 'Fosterheirs') }}</title>
 
-        <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/lucide@latest"></script>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-slate-800 antialiased">
         <div class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-emerald-50 via-white to-white px-4 py-10">

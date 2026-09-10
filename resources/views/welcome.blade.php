@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Fosterheirs Mental Health Consultancy | Therapy, Faith &amp; Healing</title>
 <meta name="description" content="Fosterheirs Mental Health Consultancy is a team of licensed, faith-integrated therapists offering trauma therapy, addiction recovery, marriage counselling, and courses, led by Dr. Anthonia Yemisi Soje." />
-<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-white text-slate-800 antialiased">
 
