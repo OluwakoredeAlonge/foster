@@ -97,6 +97,7 @@
     <h3 class="text-lg font-semibold text-gray-900 mb-4">Course Orders</h3>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="overflow-x-auto">
         <table class="w-full text-sm">
             <thead class="bg-gray-50 text-gray-500 uppercase text-xs">
                 <tr>
@@ -158,6 +159,7 @@
                 @endforelse
             </tbody>
         </table>
+      </div>
     </div>
 </div>
 @endsection

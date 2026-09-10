@@ -18,6 +18,7 @@
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="overflow-x-auto">
         <table class="w-full text-sm">
             <thead class="bg-gray-50 text-gray-500 uppercase text-xs">
                 <tr>
@@ -59,6 +60,7 @@
                 @endforelse
             </tbody>
         </table>
+      </div>
     </div>
 
     <div class="mt-6">
