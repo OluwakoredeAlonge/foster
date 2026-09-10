@@ -50,7 +50,7 @@
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Workplace</label>
                 <input type="text" name="workplace" value="{{ old('workplace') }}" required
-                    placeholder="e.g., Heirs Multispecialist Hospital"
+                    placeholder="e.g., Fosterheirs Specialist Hospital"
                     class="w-full border border-gray-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
             </div>
             <div>

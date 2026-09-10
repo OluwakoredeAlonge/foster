@@ -14,7 +14,7 @@
         <h3 class="text-sm font-semibold text-gray-900 mb-3">Add a Category</h3>
         <form method="POST" action="{{ route('admin.courses.categories.store') }}" class="flex items-center gap-2">
             @csrf
-            <input type="text" name="name" required value="{{ old('name') }}" placeholder="e.g., Heirs Certification Courses"
+            <input type="text" name="name" required value="{{ old('name') }}" placeholder="e.g., Addiction Recovery Courses"
                 class="flex-1 px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent @error('name') border-red-400 @else border-gray-300 @enderror">
             <button type="submit" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition whitespace-nowrap">
                 Add Category
