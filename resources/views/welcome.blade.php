@@ -175,72 +175,35 @@
     </div>
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-
-      <!-- Dr. Soje -->
-      <div class="flex flex-col rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-100">
-        <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-emerald-600 to-emerald-800 text-2xl font-bold text-white">
-          AS
+      @forelse ($teamMembers as $member)
+        <div class="flex flex-col rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-100">
+          <div class="mx-auto flex h-24 w-24 items-center justify-center overflow-hidden rounded-full {{ $member->photo_url ? '' : 'bg-gradient-to-br from-emerald-600 to-emerald-800' }} text-2xl font-bold text-white">
+            @if ($member->photo_url)
+              <img src="{{ $member->photo_url }}" alt="{{ $member->name }}" class="h-full w-full object-cover" />
+            @elseif ($member->is_placeholder)
+              <i data-lucide="user-round" class="h-9 w-9"></i>
+            @else
+              {{ $member->initials() }}
+            @endif
+          </div>
+          <h3 class="mt-5 text-base font-bold text-slate-900">{{ $member->name }}</h3>
+          <p class="text-xs font-semibold uppercase tracking-wide text-emerald-700">{{ $member->title }}</p>
+          <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{{ $member->bio }}</p>
+          @if ($member->is_placeholder)
+            <span class="mx-auto mt-4 inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-semibold text-amber-800">
+              <i data-lucide="clock" class="h-3 w-3"></i> Profile coming soon
+            </span>
+          @elseif (!empty($member->tags))
+            <div class="mt-4 flex flex-wrap justify-center gap-1.5">
+              @foreach ($member->tags as $tag)
+                <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-800">{{ $tag }}</span>
+              @endforeach
+            </div>
+          @endif
         </div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Dr. Anthonia Yemisi Soje</h3>
-        <p class="text-xs font-semibold uppercase tracking-wide text-emerald-700">Founder &amp; Lead Psycho-trauma Therapist</p>
-        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
-          A Nigerian medical practitioner, board-certified psycho-trauma therapist, and published author.
-          Dr. Soje leads Fosterheirs with the conviction that faith and clinical science are partners,
-          not rivals.
-        </p>
-        <div class="mt-4 flex flex-wrap justify-center gap-1.5">
-          <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-800">Physician</span>
-          <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-800">Author</span>
-        </div>
-      </div>
-
-      <!-- Assistant (placeholder) -->
-      <div class="flex flex-col rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-100">
-        <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-slate-400 to-slate-600 text-white">
-          <i data-lucide="user-round" class="h-9 w-9"></i>
-        </div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Practice Assistant</h3>
-        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Clinical &amp; Client Care Assistant</p>
-        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
-          Coordinates scheduling and client care for the team, the friendly first point of contact on
-          your healing journey.
-        </p>
-        <span class="mx-auto mt-4 inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-semibold text-amber-800">
-          <i data-lucide="clock" class="h-3 w-3"></i> Profile coming soon
-        </span>
-      </div>
-
-      <!-- Therapist placeholder 1 -->
-      <div class="flex flex-col rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-100">
-        <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-slate-400 to-slate-600 text-white">
-          <i data-lucide="user-round" class="h-9 w-9"></i>
-        </div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Therapist Name</h3>
-        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Licensed Marriage &amp; Family Therapist</p>
-        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
-          Supports couples and families through premarital counselling and marriage restoration, alongside
-          Dr. Soje's clinical framework.
-        </p>
-        <span class="mx-auto mt-4 inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-semibold text-amber-800">
-          <i data-lucide="clock" class="h-3 w-3"></i> Profile coming soon
-        </span>
-      </div>
-
-      <!-- Therapist placeholder 2 -->
-      <div class="flex flex-col rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-100">
-        <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-slate-400 to-slate-600 text-white">
-          <i data-lucide="user-round" class="h-9 w-9"></i>
-        </div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Therapist Name</h3>
-        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Addiction Recovery Counsellor</p>
-        <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
-          Walks alongside clients through rehabilitation and relapse prevention as part of our fourfold
-          recovery approach.
-        </p>
-        <span class="mx-auto mt-4 inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-semibold text-amber-800">
-          <i data-lucide="clock" class="h-3 w-3"></i> Profile coming soon
-        </span>
-      </div>
+      @empty
+        <p class="col-span-full text-center text-sm text-slate-400">Team profiles are being updated.</p>
+      @endforelse
     </div>
   </div>
 </section>
@@ -257,42 +220,16 @@
     </div>
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <div class="rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="heart-handshake" class="h-6 w-6"></i></div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Psycho-trauma Therapy</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Evidence-based trauma processing for individuals carrying deep emotional wounds and post-traumatic stress.</p>
-        <a href="#contact" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:text-emerald-800">Book Session <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="life-buoy" class="h-6 w-6"></i></div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Addiction Recovery</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Medical, psychological, and spiritual support for lasting freedom from drug, alcohol, and behavioural addictions.</p>
-        <a href="#contact" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:text-emerald-800">Book Session <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="users" class="h-6 w-6"></i></div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Christian Marriage &amp; Sexuality Coaching</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Restoring intimacy and communication in marriages through faith-based conflict resolution.</p>
-        <a href="#contact" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:text-emerald-800">Book Session <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="brain" class="h-6 w-6"></i></div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Mood Disorders Management</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Structured assessment and care for anxiety, depression, and bipolar disorder in children and adults.</p>
-        <a href="#contact" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:text-emerald-800">Book Session <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="compass" class="h-6 w-6"></i></div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Life Coaching</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Goal-oriented coaching to help you discover purpose and unlock your fullest potential.</p>
-        <a href="#contact" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:text-emerald-800">Book Session <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="heart" class="h-6 w-6"></i></div>
-        <h3 class="mt-5 text-base font-bold text-slate-900">Premarital Counselling</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Equipping couples with communication skills and shared expectations to build a strong foundation.</p>
-        <a href="#contact" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:text-emerald-800">Book Session <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
-      </div>
+      @forelse ($services as $service)
+        <div class="rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
+          <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="{{ $service->icon }}" class="h-6 w-6"></i></div>
+          <h3 class="mt-5 text-base font-bold text-slate-900">{{ $service->title }}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $service->description }}</p>
+          <a href="#contact" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:text-emerald-800">Book Session <i data-lucide="arrow-right" class="h-4 w-4"></i></a>
+        </div>
+      @empty
+        <p class="col-span-full text-center text-sm text-slate-400">Services are being updated.</p>
+      @endforelse
     </div>
 
     <!-- Speaking & Events banner -->
@@ -724,7 +661,7 @@
   </div>
 </footer>
 
-<script src="{{ asset('assets/js/courses.js') }}"></script>
-<script src="{{ asset('assets/js/main.js') }}"></script>
+<script src="{{ asset('assets/js/courses.js') }}?v={{ filemtime(public_path('assets/js/courses.js')) }}"></script>
+<script src="{{ asset('assets/js/main.js') }}?v={{ filemtime(public_path('assets/js/main.js')) }}"></script>
 </body>
 </html>

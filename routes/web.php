@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // The old localStorage-only course admin prototype is retired now that
 // /admin/courses (routes/admin-courses.php) is a real, database-backed

@@ -3,10 +3,11 @@
  *
  * Public courses currently come from two sources, merged together:
  *   1. `fetchApiCourses()`: calls our own Laravel proxy (foster-heirs),
- *      which holds the partner API's bearer token server-side and
- *      strips gated content before responding. Never call the partner
- *      API directly from this file, the token must never reach the
- *      browser. Falls back to MOCK_API_COURSES if the proxy is
+ *      which holds the partner API's bearer token server-side, strips
+ *      gated content, and hides any course the admin has curated off
+ *      the public site (see admin/external-courses). Never call the
+ *      partner API directly from this file, the token must never reach
+ *      the browser. Falls back to MOCK_API_COURSES if the proxy is
  *      unreachable or returns nothing.
  *   2. Local admin-created courses, stored in the browser via
  *      localStorage (see resources/views/admin.blade.php). This is a
@@ -23,9 +24,9 @@ const MOCK_API_COURSES = [
     title: "Quit Porn and Sex Addiction",
     category: "Addiction Recovery",
     format: "14-Module Programme",
-    price: "Paid",
+    price: null,
+    priceLabel: "Paid",
     badge: "Bestseller",
-    icon: "life-buoy",
     blurb:
       "A budget-friendly, evidence-based recovery programme built on a biopsychosocial-spiritual model: addressing the physical, psychological, social, and spiritual sides of healing.",
     link: "#",
@@ -35,8 +36,8 @@ const MOCK_API_COURSES = [
     title: "The Fourfold Path to Freedom",
     category: "Addiction Recovery",
     format: "Self-paced Video Course",
-    price: "Paid",
-    icon: "compass",
+    price: null,
+    priceLabel: "Paid",
     blurb:
       "A biological, psychological, social, and spiritual framework for lasting freedom from pornography and sexual addiction, not just temporary abstinence.",
     link: "#",
@@ -46,8 +47,8 @@ const MOCK_API_COURSES = [
     title: "Trauma Recovery Intensive",
     category: "Trauma Healing",
     format: "Coming Soon",
-    price: "Paid",
-    icon: "heart-handshake",
+    price: null,
+    priceLabel: "Paid",
     comingSoon: true,
     blurb:
       "A guided journey through psycho-trauma therapy techniques for processing deep emotional wounds, led by our clinical team.",
@@ -58,8 +59,8 @@ const MOCK_API_COURSES = [
     title: "Marriage Foundations",
     category: "Marriage & Relationships",
     format: "Coming Soon",
-    price: "Paid",
-    icon: "users",
+    price: null,
+    priceLabel: "Paid",
     comingSoon: true,
     blurb:
       "Faith-based communication and conflict-resolution tools for couples building, or rebuilding, a resilient marriage.",
@@ -115,35 +116,24 @@ function deleteLocalCourse(id) {
  * fields, the proxy strips gated week/material content before this runs.
  */
 function mapPartnerCourse(raw) {
-  const price =
-    typeof raw.price === "number"
-      ? raw.price === 0
-        ? "Free"
-        : `₦${raw.price.toLocaleString()}`
-      : "Paid";
-
   const format = raw.is_lifetime_access
     ? "Lifetime Access"
     : raw.access_duration_months
       ? `${raw.access_duration_months}-Month Access`
       : "Course";
 
-  const badge =
-    raw.discount_percentage > 0
-      ? `${raw.discount_percentage}% Off`
-      : raw.has_certificate
-        ? "Certificate"
-        : undefined;
-
   return {
     id: raw.slug || raw.id,
     title: raw.title,
-    category: raw.category?.name || "General",
+    category: raw.category?.name || raw.type || "General",
     format,
-    price,
-    badge,
-    icon: "book-open",
-    blurb: raw.details || "",
+    image_url: raw.image_url || null,
+    price: typeof raw.price === "number" ? raw.price : null,
+    originalPrice: typeof raw.original_price === "number" ? raw.original_price : null,
+    discountPercentage: raw.discount_percentage || 0,
+    hasCertificate: !!raw.has_certificate,
+    ratingAvg: raw.rating_avg || 0,
+    ratingsCount: raw.ratings_count || 0,
     link: raw.purchase_url || "#",
     source: "api",
   };
@@ -183,38 +173,96 @@ async function getAllCourses() {
   return [...localCourses, ...apiCourses];
 }
 
+function escapeHtml(str) {
+  return String(str ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[c]);
+}
+
+/**
+ * Compact teaser card for the homepage grid — mirrors the layout of the
+ * partner site's own course card (image, badges, rating, price), but
+ * deliberately never renders the full course description here. The
+ * description belongs on the course's own detail page, not a preview
+ * grid; showing it here used to blow the card out to the height of the
+ * longest course's full write-up.
+ */
 function courseCardHTML(course) {
-  const badge = course.comingSoon
-    ? `<span class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">Coming Soon</span>`
-    : `<span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">${course.price || "Paid Course"}</span>`;
+  const priceLabel =
+    course.price === 0
+      ? "Free"
+      : typeof course.price === "number"
+        ? `₦${course.price.toLocaleString()}`
+        : course.priceLabel || "Paid";
 
-  const extraBadge = course.badge
-    ? `<span class="inline-flex items-center gap-1 rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">${course.badge}</span>`
-    : "";
+  const media = course.image_url
+    ? `<img src="${escapeHtml(course.image_url)}" alt="${escapeHtml(course.title)}" class="h-40 w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" />`
+    : `<div class="flex h-40 w-full items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50">
+         <i data-lucide="graduation-cap" class="h-12 w-12 text-emerald-300"></i>
+       </div>`;
 
-  const localTag =
-    course.source === "local"
-      ? `<span class="inline-flex items-center gap-1 rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-800">Added by Team</span>`
+  const discountBadge =
+    course.discountPercentage > 0
+      ? `<span class="absolute right-2.5 top-2.5 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white shadow">-${course.discountPercentage}%</span>`
       : "";
 
+  const comingSoonBadge = course.comingSoon
+    ? `<span class="absolute right-2.5 top-2.5 rounded-full bg-amber-500 px-2 py-1 text-xs font-bold text-white shadow">Coming Soon</span>`
+    : "";
+
+  const teamBadge =
+    course.source === "local"
+      ? `<span class="inline-flex items-center gap-1 rounded bg-sky-50 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-sky-700">Added by Team</span>`
+      : "";
+
+  const certificateBadge = course.hasCertificate
+    ? `<span class="inline-flex items-center gap-1 rounded bg-blue-50 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-blue-700">
+         <i data-lucide="award" class="h-3 w-3"></i> Certificate
+       </span>`
+    : "";
+
+  const ratingRow =
+    course.ratingsCount > 0
+      ? `<div class="mb-2 flex items-center gap-1 text-xs text-amber-500">
+           <i data-lucide="star" class="h-3.5 w-3.5 fill-current"></i>
+           <span class="font-medium text-slate-600">${course.ratingAvg.toFixed(1)}</span>
+           <span class="text-slate-400">(${course.ratingsCount})</span>
+         </div>`
+      : "";
+
+  const priceRow = `
+    <div class="mt-auto flex items-baseline gap-2 border-t border-slate-50 pt-3">
+      <span class="text-lg font-extrabold text-slate-900">${priceLabel}</span>
+      ${course.originalPrice ? `<span class="text-sm text-slate-400 line-through">₦${course.originalPrice.toLocaleString()}</span>` : ""}
+    </div>`;
+
   const cta = course.comingSoon
-    ? `<button disabled class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-400 cursor-not-allowed">Notify Me</button>`
-    : `<a href="${course.link || "#"}" class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800">
+    ? `<button disabled class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-400 cursor-not-allowed">Notify Me</button>`
+    : `<a href="${course.link || "#"}" target="${course.link && course.link !== "#" ? "_blank" : "_self"}" rel="noopener" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800">
          Get Access <i data-lucide="arrow-right" class="h-4 w-4"></i>
        </a>`;
 
   return `
-    <div class="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <div class="flex items-center justify-between gap-2">
-        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
-          <i data-lucide="${course.icon || "book-open"}" class="h-5 w-5"></i>
-        </div>
-        <div class="flex flex-wrap justify-end gap-2">${extraBadge}${localTag}${badge}</div>
+    <div class="course-card group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+      <div class="relative overflow-hidden">
+        ${media}
+        ${discountBadge}${comingSoonBadge}
       </div>
-      <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-emerald-700">${course.category || "General"} &middot; ${course.format || "Course"}</p>
-      <h3 class="mt-1 text-lg font-bold text-slate-900">${course.title}</h3>
-      <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600">${course.blurb || ""}</p>
-      ${cta}
+      <div class="flex flex-1 flex-col p-5">
+        <div class="mb-2 flex flex-wrap items-center gap-1.5">
+          <span class="inline-flex items-center gap-1 rounded bg-emerald-50 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-emerald-700">${escapeHtml(course.category || "General")}</span>
+          ${certificateBadge}${teamBadge}
+        </div>
+        <h3 class="mb-2 line-clamp-2 flex-1 text-base font-bold leading-snug text-slate-900 transition group-hover:text-emerald-700">${escapeHtml(course.title)}</h3>
+        <p class="mb-2 text-xs font-medium text-slate-400">${escapeHtml(course.format || "Course")}</p>
+        ${ratingRow}
+        ${priceRow}
+        ${cta}
+      </div>
     </div>
   `;
 }

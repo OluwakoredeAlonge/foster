@@ -23,6 +23,12 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware(['web', 'auth', 'verified', 'role:admin'])
                 ->prefix('admin')
                 ->group(base_path('routes/admin-courses.php'));
+
+            // Fosterheirs' own homepage content admin (Services, Our
+            // Therapists, pulled-course curation) — staff only.
+            Route::middleware(['web', 'auth', 'verified', 'role:admin'])
+                ->prefix('admin')
+                ->group(base_path('routes/admin-content.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

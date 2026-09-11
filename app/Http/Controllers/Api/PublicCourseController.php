@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\PartnerCoursesApiException;
 use App\Http\Controllers\Controller;
+use App\Models\ExternalCourseVisibility;
 use App\Services\PartnerCoursesClient;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -43,14 +44,29 @@ class PublicCourseController extends Controller
             ], 502);
         }
 
+        $hiddenSlugs = ExternalCourseVisibility::hiddenSlugs();
+        $visibleItems = array_values(array_filter(
+            $result['items'],
+            fn (array $course) => ! in_array($course['slug'] ?? null, $hiddenSlugs, true)
+        ));
+
+        // Filtering happens after the partner's own pagination, so on a
+        // page with hidden courses this can return fewer items than
+        // `meta.per_page` says — acceptable while the catalog is small
+        // (single page); `meta.total` still reflects the partner's count,
+        // not what's actually visible here.
         return response()->json([
-            'data' => array_map($this->trim(...), $result['items']),
+            'data' => array_map($this->trim(...), $visibleItems),
             'meta' => Arr::only($result['meta'], ['current_page', 'last_page', 'per_page', 'total']),
         ]);
     }
 
     public function show(string $slug): JsonResponse
     {
+        if (in_array($slug, ExternalCourseVisibility::hiddenSlugs(), true)) {
+            return response()->json(['message' => 'Course not found.'], 404);
+        }
+
         $cacheKey = "public-courses:show:{$slug}";
 
         try {

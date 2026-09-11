@@ -2,11 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Models\ExternalCourseVisibility;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class PublicCourseControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -79,6 +83,30 @@ class PublicCourseControllerTest extends TestCase
         config(['course_catalog.base_url' => null, 'course_catalog.token' => null]);
 
         $this->getJson('/api/public/courses')->assertStatus(502);
+    }
+
+    public function test_index_excludes_courses_the_admin_has_hidden(): void
+    {
+        ExternalCourseVisibility::create(['slug' => 'quit-porn-sex-addiction', 'is_visible' => false]);
+
+        Http::fake([
+            'partner.test/api/courses*' => Http::response([
+                'data' => [$this->partnerCoursePayload()],
+                'meta' => ['current_page' => 1, 'last_page' => 1, 'per_page' => 15, 'total' => 1],
+            ], 200),
+        ]);
+
+        $response = $this->getJson('/api/public/courses');
+
+        $response->assertOk();
+        $response->assertJsonCount(0, 'data');
+    }
+
+    public function test_show_returns_404_for_a_course_the_admin_has_hidden(): void
+    {
+        ExternalCourseVisibility::create(['slug' => 'quit-porn-sex-addiction', 'is_visible' => false]);
+
+        $this->getJson('/api/public/courses/quit-porn-sex-addiction')->assertNotFound();
     }
 
     /**
