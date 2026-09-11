@@ -10,6 +10,8 @@
             : 'Course');
 
     $categoryLabel = $course['category']['name'] ?? $course['type'] ?? 'General';
+    $isLocal = $course['is_local'] ?? false;
+    $isCohort = $course['is_cohort'] ?? false;
 @endphp
 <div class="course-card group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
     <div class="relative overflow-hidden">
@@ -49,15 +51,19 @@
         @endif
 
         <div class="mt-auto flex items-baseline gap-2 border-t border-slate-50 pt-3">
-            <span class="text-lg font-extrabold text-slate-900">{{ $price }}</span>
-            @if (!empty($course['original_price']))
-                <span class="text-sm text-slate-400 line-through">₦{{ number_format($course['original_price'], 0) }}</span>
+            @if ($isCohort)
+                <span class="text-sm font-bold text-emerald-700">Cohort program</span>
+            @else
+                <span class="text-lg font-extrabold text-slate-900">{{ $price }}</span>
+                @if (!empty($course['original_price']))
+                    <span class="text-sm text-slate-400 line-through">₦{{ number_format($course['original_price'], 0) }}</span>
+                @endif
             @endif
         </div>
 
-        <a href="{{ $course['purchase_url'] ?? '#' }}" target="_blank" rel="noopener"
+        <a href="{{ $course['purchase_url'] ?? '#' }}" @unless($isLocal) target="_blank" rel="noopener" @endunless
            class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800">
-            Get Access <i data-lucide="arrow-right" class="h-4 w-4"></i>
+            {{ $isCohort ? 'Join the Waitlist' : 'Get Access' }} <i data-lucide="arrow-right" class="h-4 w-4"></i>
         </a>
     </div>
 </div>

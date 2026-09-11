@@ -152,6 +152,44 @@ class Course extends Model
         return 0;
     }
 
+    /**
+     * Shapes a local course into the same array format
+     * PartnerCoursesClient::toPublicArray() produces for a pulled course,
+     * so partials/course-card.blade.php can render either without caring
+     * which one it got. Unlike a pulled course, this one has a real page
+     * on this site — purchase_url points there instead of off-site, and
+     * is_local lets the card know not to open it in a new tab.
+     *
+     * @return array<string, mixed>
+     */
+    public function toPublicArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'title' => $this->title,
+            'type' => $this->type,
+            'price' => (float) $this->price,
+            'original_price' => $this->original_price !== null ? (float) $this->original_price : null,
+            'discount_percentage' => $this->discount_percentage,
+            'image_url' => $this->course_image_path,
+            'has_certificate' => $this->has_certificate,
+            'requires_registration' => $this->requires_registration,
+            'access_duration_months' => $this->access_duration_months,
+            'is_lifetime_access' => is_null($this->access_duration_months),
+            'rating_avg' => (float) $this->rating_avg,
+            'ratings_count' => $this->ratings_count,
+            'category' => $this->category ? [
+                'id' => $this->category->id,
+                'name' => $this->category->name,
+                'slug' => $this->category->slug,
+            ] : null,
+            'is_cohort' => $this->is_cohort,
+            'purchase_url' => route('courses.show', $this),
+            'is_local' => true,
+        ];
+    }
+
     public function recalculateRating(): void
     {
         $this->update([
