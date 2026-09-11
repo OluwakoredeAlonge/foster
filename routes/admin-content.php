@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\ExternalCourseController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SiteResourceController;
 use App\Http\Controllers\Admin\TeamMemberController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,4 +43,29 @@ Route::prefix('team-members')->name('admin.team-members.')->group(function () {
     Route::put('/{teamMember}', [TeamMemberController::class, 'update'])->name('update');
     Route::delete('/{teamMember}', [TeamMemberController::class, 'destroy'])->name('destroy');
     Route::post('/{teamMember}/toggle', [TeamMemberController::class, 'toggle'])->name('toggle');
+});
+
+Route::prefix('books')->name('admin.books.')->group(function () {
+    Route::get('/', [BookController::class, 'index'])->name('index');
+    Route::get('/create', [BookController::class, 'create'])->name('create');
+    Route::post('/', [BookController::class, 'store'])->name('store');
+    Route::get('/{book}/edit', [BookController::class, 'edit'])->name('edit');
+    Route::put('/{book}', [BookController::class, 'update'])->name('update');
+    Route::delete('/{book}', [BookController::class, 'destroy'])->name('destroy');
+    Route::post('/{book}/toggle', [BookController::class, 'toggle'])->name('toggle');
+});
+
+Route::prefix('resources')->name('admin.site-resources.')->group(function () {
+    Route::get('/', [SiteResourceController::class, 'index'])->name('index');
+    Route::get('/create', [SiteResourceController::class, 'create'])->name('create');
+    Route::post('/', [SiteResourceController::class, 'store'])->name('store');
+    Route::get('/{siteResource}/edit', [SiteResourceController::class, 'edit'])->name('edit');
+    Route::put('/{siteResource}', [SiteResourceController::class, 'update'])->name('update');
+    Route::delete('/{siteResource}', [SiteResourceController::class, 'destroy'])->name('destroy');
+    Route::post('/{siteResource}/toggle', [SiteResourceController::class, 'toggle'])->name('toggle');
+});
+
+Route::prefix('contact-settings')->name('admin.contact-settings.')->group(function () {
+    Route::get('/', [ContactSettingController::class, 'edit'])->name('edit');
+    Route::put('/', [ContactSettingController::class, 'update'])->name('update');
 });

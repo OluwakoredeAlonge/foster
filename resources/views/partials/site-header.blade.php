@@ -3,17 +3,33 @@
   <div class="hidden bg-emerald-950 py-2 text-emerald-100 sm:block">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-5 text-xs lg:px-8">
       <div class="flex items-center gap-5">
-        <a href="tel:+2347042481085" class="flex items-center gap-1.5 hover:text-white">
-          <i data-lucide="phone" class="h-3.5 w-3.5"></i> 0704 248 1085
-        </a>
-        <a href="mailto:heirsfosterproject@gmail.com" class="flex items-center gap-1.5 hover:text-white">
-          <i data-lucide="mail" class="h-3.5 w-3.5"></i> heirsfosterproject@gmail.com
-        </a>
+        @if($contactSettings->phone_href)
+          <a href="tel:{{ $contactSettings->phone_href }}" class="flex items-center gap-1.5 hover:text-white">
+            <i data-lucide="phone" class="h-3.5 w-3.5"></i> {{ $contactSettings->phone_display }}
+          </a>
+        @endif
+        @if($contactSettings->email)
+          <a href="mailto:{{ $contactSettings->email }}" class="flex items-center gap-1.5 hover:text-white">
+            <i data-lucide="mail" class="h-3.5 w-3.5"></i> {{ $contactSettings->email }}
+          </a>
+        @endif
       </div>
       <div class="flex items-center gap-3">
-        <a href="#" aria-label="Instagram" class="hover:text-white"><i data-lucide="instagram" class="h-3.5 w-3.5"></i></a>
-        <a href="#" aria-label="Facebook" class="hover:text-white"><i data-lucide="facebook" class="h-3.5 w-3.5"></i></a>
-        <a href="#" aria-label="YouTube" class="hover:text-white"><i data-lucide="youtube" class="h-3.5 w-3.5"></i></a>
+        @if($contactSettings->instagram_url)
+          <a href="{{ $contactSettings->instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram" class="hover:text-white">
+            @include('partials.social-icon', ['platform' => 'instagram', 'class' => 'h-3.5 w-3.5'])
+          </a>
+        @endif
+        @if($contactSettings->facebook_url)
+          <a href="{{ $contactSettings->facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook" class="hover:text-white">
+            @include('partials.social-icon', ['platform' => 'facebook', 'class' => 'h-3.5 w-3.5'])
+          </a>
+        @endif
+        @if($contactSettings->youtube_url)
+          <a href="{{ $contactSettings->youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube" class="hover:text-white">
+            @include('partials.social-icon', ['platform' => 'youtube', 'class' => 'h-3.5 w-3.5'])
+          </a>
+        @endif
       </div>
     </div>
   </div>

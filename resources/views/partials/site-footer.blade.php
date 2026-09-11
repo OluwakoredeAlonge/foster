@@ -11,9 +11,21 @@
           restore lives and rebuild homes across Nigeria and beyond.
         </p>
         <div class="mt-4 flex items-center gap-3">
-          <a href="#" aria-label="Instagram" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-slate-400 transition hover:bg-emerald-700 hover:text-white"><i data-lucide="instagram" class="h-4 w-4"></i></a>
-          <a href="#" aria-label="Facebook" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-slate-400 transition hover:bg-emerald-700 hover:text-white"><i data-lucide="facebook" class="h-4 w-4"></i></a>
-          <a href="#" aria-label="YouTube" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-slate-400 transition hover:bg-emerald-700 hover:text-white"><i data-lucide="youtube" class="h-4 w-4"></i></a>
+          @if($contactSettings->instagram_url)
+            <a href="{{ $contactSettings->instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-slate-400 transition hover:bg-emerald-700 hover:text-white">
+              @include('partials.social-icon', ['platform' => 'instagram'])
+            </a>
+          @endif
+          @if($contactSettings->facebook_url)
+            <a href="{{ $contactSettings->facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-slate-400 transition hover:bg-emerald-700 hover:text-white">
+              @include('partials.social-icon', ['platform' => 'facebook'])
+            </a>
+          @endif
+          @if($contactSettings->youtube_url)
+            <a href="{{ $contactSettings->youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube" class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-slate-400 transition hover:bg-emerald-700 hover:text-white">
+              @include('partials.social-icon', ['platform' => 'youtube'])
+            </a>
+          @endif
         </div>
       </div>
       <div>
@@ -38,9 +50,15 @@
       <div>
         <p class="text-xs font-semibold uppercase tracking-wide text-white">Contact</p>
         <ul class="mt-4 space-y-2 text-sm text-slate-400">
-          <li>Heirs Specialist Hospital, Beside Aluko House, Irare Estate, Oye-Ekiti</li>
-          <li><a href="tel:+2347042481085" class="hover:text-white">0704 248 1085</a></li>
-          <li><a href="mailto:heirsfosterproject@gmail.com" class="hover:text-white">heirsfosterproject@gmail.com</a></li>
+          @if($contactSettings->address)
+            <li>{{ $contactSettings->address }}</li>
+          @endif
+          @if($contactSettings->phone_href)
+            <li><a href="tel:{{ $contactSettings->phone_href }}" class="hover:text-white">{{ $contactSettings->phone_display }}</a></li>
+          @endif
+          @if($contactSettings->email)
+            <li><a href="mailto:{{ $contactSettings->email }}" class="hover:text-white">{{ $contactSettings->email }}</a></li>
+          @endif
         </ul>
       </div>
     </div>

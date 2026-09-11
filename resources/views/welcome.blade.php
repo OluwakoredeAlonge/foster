@@ -263,23 +263,11 @@
     </div>
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      @php
-        $books = [
-          ['image' => 'echoes-of-eden.jpg', 'category' => 'Marriage & Relationships', 'title' => 'Echoes of Eden', 'blurb' => "God's design for marriage and sexuality, building healthy homes rooted in love and purpose."],
-          ['image' => 'addiction-compass.jpg', 'category' => 'Addiction Recovery', 'title' => 'The Addiction Compass', 'blurb' => 'Navigating understanding, healing, and hope through the complex nature of addiction.'],
-          ['image' => 'unshackled.jpg', 'category' => 'Devotional', 'title' => 'Unshackled', 'blurb' => 'A devotional for addiction recovery, daily faith anchors for breaking free.'],
-          ['image' => 'unmasking-you.jpg', 'category' => 'Psychology', 'title' => 'Unmasking You', 'blurb' => 'A guide to personality disorders: understanding human behaviour and emotional patterns.'],
-          ['image' => 'anchored.jpg', 'category' => 'Identity & Faith', 'title' => 'Anchored', 'blurb' => 'Finding your worth and identity in Christ, for solid ground when you feel not enough.'],
-          ['image' => 'sanctuary.jpg', 'category' => 'Trauma Healing', 'title' => 'Sanctuary', 'blurb' => 'Finding psychological and spiritual wholeness after sexual assault.'],
-          ['image' => 'fourfold-path.jpg', 'category' => 'Addiction Recovery', 'title' => 'The Fourfold Path to Freedom', 'blurb' => 'A biopsychosociospiritual approach to quitting addictions.'],
-          ['image' => 'feelings-and-faith.jpg', 'category' => 'Parenting', 'title' => 'Feelings and Faith', 'blurb' => 'Helping parents guide children to manage feelings with the compass of faith.'],
-        ];
-      @endphp
-      @foreach ($books as $book)
+      @forelse ($books as $book)
         <div class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:shadow-lg">
-          @if ($book['image'])
+          @if ($book->cover_image_path)
             <div class="aspect-[4/5] overflow-hidden bg-slate-50">
-              <img src="{{ asset('images/books/' . $book['image']) }}" alt="{{ $book['title'] }}"
+              <img src="{{ $book->cover_image_path }}" alt="{{ $book->title }}"
                    class="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
             </div>
           @else
@@ -288,13 +276,17 @@
             </div>
           @endif
           <div class="p-5">
-            <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">{{ $book['category'] }}</span>
-            <h3 class="mt-2 text-sm font-bold text-slate-900">{{ $book['title'] }}</h3>
-            <p class="mt-2 text-xs leading-relaxed text-slate-600">{{ $book['blurb'] }}</p>
-            <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
+            <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">{{ $book->category }}</span>
+            <h3 class="mt-2 text-sm font-bold text-slate-900">{{ $book->title }}</h3>
+            <p class="mt-2 text-xs leading-relaxed text-slate-600">{{ $book->blurb }}</p>
+            @if($book->link_url)
+              <a href="{{ $book->link_url }}" target="_blank" rel="noopener" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
+            @endif
           </div>
         </div>
-      @endforeach
+      @empty
+        <p class="col-span-full text-center text-sm text-slate-400">Books coming soon.</p>
+      @endforelse
     </div>
   </div>
 </section>
@@ -379,42 +371,16 @@
     </div>
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <a href="https://sojeanthonia.laravel.cloud/blog" target="_blank" rel="noopener" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Wisdom for Womanhood</span>
-        <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">Marks of Motherhood</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">On motherhood as privilege, blessing, and the scars, seen and unseen, it can leave behind.</p>
-        <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">5 min read <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
-      </a>
-      <a href="https://sojeanthonia.laravel.cloud/blog" target="_blank" rel="noopener" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Identity &amp; Faith</span>
-        <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">When Drops Become a Flood</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Rethinking the quiet moments that build into overwhelm, and why "not enough" deserves a second look.</p>
-        <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">5 min read <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
-      </a>
-      <a href="https://sojeanthonia.laravel.cloud/blog" target="_blank" rel="noopener" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Trauma Healing</span>
-        <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">Trauma, Vows and Consequences</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">A reflection on the story of Jephthah, and what it teaches about trauma and the weight of vows.</p>
-        <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">5 min read <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
-      </a>
-      <a href="https://sojeanthonia.laravel.cloud/blog" target="_blank" rel="noopener" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Mental Health Awareness</span>
-        <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">Buried Treasure Within</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">On beauty in its time, and the eternity set in every human heart: a note on hidden worth.</p>
-        <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">5 min read <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
-      </a>
-      <a href="https://sojeanthonia.laravel.cloud/blog" target="_blank" rel="noopener" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Mental Health Awareness</span>
-        <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">I'm Fine... Are You?</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">On the smile that hides the strain, and the quiet cost of always seeming okay.</p>
-        <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">5 min read <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
-      </a>
-      <a href="https://sojeanthonia.laravel.cloud/blog" target="_blank" rel="noopener" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Trauma Healing</span>
-        <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">Healing Has a Price. Trauma Has a Bigger One.</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Why the true cost of staying unhealed almost always outweighs the cost of therapy.</p>
-        <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">5 min read <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
-      </a>
+      @forelse ($siteResources as $resource)
+        <a href="{{ $resource->url ?: 'https://sojeanthonia.laravel.cloud/blog' }}" target="_blank" rel="noopener" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
+          <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">{{ $resource->category }}</span>
+          <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">{{ $resource->title }}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $resource->blurb }}</p>
+          <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">{{ $resource->read_time }} <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+        </a>
+      @empty
+        <p class="col-span-full text-center text-sm text-slate-400">More reflections coming soon.</p>
+      @endforelse
     </div>
 
     <div class="mt-10 text-center">
@@ -495,38 +461,58 @@
     <div class="mt-14 grid gap-10 lg:grid-cols-5">
       <!-- Info -->
       <div class="space-y-6 lg:col-span-2">
+        @if($contactSettings->address)
         <div class="flex items-start gap-4">
           <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="map-pin" class="h-5 w-5"></i></div>
           <div>
             <p class="text-sm font-bold text-slate-900">Office Address</p>
-            <p class="mt-1 text-sm text-slate-600">Heirs Specialist Hospital, Beside Aluko House,<br />Irare Estate, Oye-Ekiti, Ekiti State</p>
+            <p class="mt-1 text-sm text-slate-600">{{ $contactSettings->address }}</p>
           </div>
         </div>
+        @endif
+        @if($contactSettings->phone_display)
         <div class="flex items-start gap-4">
           <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="phone" class="h-5 w-5"></i></div>
           <div>
             <p class="text-sm font-bold text-slate-900">Phone / WhatsApp</p>
-            <p class="mt-1 text-sm text-slate-600">0704 248 1085 &middot; 0806 643 5831</p>
+            <p class="mt-1 text-sm text-slate-600">{{ $contactSettings->phone_display }}</p>
           </div>
         </div>
+        @endif
+        @if($contactSettings->email)
         <div class="flex items-start gap-4">
           <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="mail" class="h-5 w-5"></i></div>
           <div>
             <p class="text-sm font-bold text-slate-900">Email</p>
-            <p class="mt-1 text-sm text-slate-600">heirsfosterproject@gmail.com</p>
+            <p class="mt-1 text-sm text-slate-600">{{ $contactSettings->email }}</p>
           </div>
         </div>
+        @endif
+        @if($contactSettings->hours_weekday || $contactSettings->hours_saturday)
         <div class="flex items-start gap-4">
           <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="clock" class="h-5 w-5"></i></div>
           <div>
             <p class="text-sm font-bold text-slate-900">Working Hours</p>
-            <p class="mt-1 text-sm text-slate-600">Mon – Fri: 8:00 AM – 6:00 PM<br />Saturday: 9:00 AM – 2:00 PM</p>
+            <p class="mt-1 text-sm text-slate-600">{{ $contactSettings->hours_weekday }}@if($contactSettings->hours_weekday && $contactSettings->hours_saturday)<br />@endif{{ $contactSettings->hours_saturday }}</p>
           </div>
         </div>
+        @endif
         <div class="flex items-center gap-3 pt-2">
-          <a href="#" aria-label="Instagram" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-emerald-700 hover:text-white"><i data-lucide="instagram" class="h-4 w-4"></i></a>
-          <a href="#" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-emerald-700 hover:text-white"><i data-lucide="facebook" class="h-4 w-4"></i></a>
-          <a href="#" aria-label="YouTube" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-emerald-700 hover:text-white"><i data-lucide="youtube" class="h-4 w-4"></i></a>
+          @if($contactSettings->instagram_url)
+            <a href="{{ $contactSettings->instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-emerald-700 hover:text-white">
+              @include('partials.social-icon', ['platform' => 'instagram'])
+            </a>
+          @endif
+          @if($contactSettings->facebook_url)
+            <a href="{{ $contactSettings->facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-emerald-700 hover:text-white">
+              @include('partials.social-icon', ['platform' => 'facebook'])
+            </a>
+          @endif
+          @if($contactSettings->youtube_url)
+            <a href="{{ $contactSettings->youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-emerald-700 hover:text-white">
+              @include('partials.social-icon', ['platform' => 'youtube'])
+            </a>
+          @endif
         </div>
       </div>
 

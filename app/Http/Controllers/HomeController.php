@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\PartnerCoursesApiException;
+use App\Models\Book;
 use App\Models\Service;
+use App\Models\SiteResource;
 use App\Models\TeamMember;
 use App\Services\PartnerCoursesClient;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +19,8 @@ class HomeController extends Controller
     {
         $services = Service::visible()->ordered()->get();
         $teamMembers = TeamMember::visible()->ordered()->get();
+        $books = Book::visible()->ordered()->get();
+        $siteResources = SiteResource::visible()->ordered()->get();
 
         $featuredCourses = [];
         try {
@@ -29,6 +33,6 @@ class HomeController extends Controller
             Log::error('Homepage could not load featured courses.', ['error' => $e->getMessage()]);
         }
 
-        return view('welcome', compact('services', 'teamMembers', 'featuredCourses'));
+        return view('welcome', compact('services', 'teamMembers', 'books', 'siteResources', 'featuredCourses'));
     }
 }

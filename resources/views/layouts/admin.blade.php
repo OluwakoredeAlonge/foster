@@ -16,6 +16,9 @@
         'Site Content' => [
             ['route' => 'admin.team-members.index', 'label' => 'Our Therapists', 'icon' => 'user-round'],
             ['route' => 'admin.services.index', 'label' => 'Services', 'icon' => 'heart-handshake'],
+            ['route' => 'admin.books.index', 'label' => 'Books', 'icon' => 'book-open'],
+            ['route' => 'admin.site-resources.index', 'label' => 'Resources', 'icon' => 'newspaper'],
+            ['route' => 'admin.contact-settings.edit', 'label' => 'Contact Settings', 'icon' => 'phone'],
             ['route' => 'admin.external-courses.index', 'label' => 'Pulled Courses', 'icon' => 'download-cloud'],
         ],
         'Course Platform' => [
