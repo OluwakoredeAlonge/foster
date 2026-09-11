@@ -87,6 +87,11 @@ class PartnerCoursesClient
      * attach a storefront link. This proxy never exposes gated content
      * (week/resource titles, YouTube links, PDF downloads).
      *
+     * The partner API returns its own canonical `url` for each course —
+     * that's the real page it's bought/taken on, so it's used as-is
+     * whenever present. The slug-templated URL is kept only as a
+     * fallback for older/partial partner responses that don't include it.
+     *
      * @param  array<string, mixed>  $course
      * @return array<string, mixed>
      */
@@ -94,8 +99,9 @@ class PartnerCoursesClient
     {
         $safe = Arr::only($course, config('course_catalog.public_fields', []));
 
-        $template = config('course_catalog.storefront_url_template');
-        if ($template && isset($course['slug'])) {
+        if (! empty($course['url'])) {
+            $safe['purchase_url'] = $course['url'];
+        } elseif (($template = config('course_catalog.storefront_url_template')) && isset($course['slug'])) {
             $safe['purchase_url'] = str_replace('{slug}', $course['slug'], $template);
         }
 

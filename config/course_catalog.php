@@ -25,10 +25,11 @@ return [
     | Public Storefront URL Template
     |--------------------------------------------------------------------------
     |
-    | Where a visitor on the static Fosterheirs site should land to actually
-    | purchase/access a course (the partner's own course page), since this
-    | proxy only serves catalog data, not checkout. {slug} is replaced with
-    | the course slug.
+    | Fallback only: the partner API now returns its own canonical `url`
+    | per course, which is preferred whenever present (see
+    | PartnerCoursesClient::toPublicArray()). This template is used only
+    | if a partner course record omits `url`. {slug} is replaced with the
+    | course slug.
     |
     */
 
