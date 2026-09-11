@@ -399,6 +399,32 @@
                 @endif
 
                 <div class="p-5">
+                    @if($course->is_cohort)
+                        <div class="mb-4">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
+                                <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                                Cohort Program
+                            </span>
+                            @if($course->cohort_starts_at)
+                                <p class="text-sm text-gray-600 mt-2">
+                                    <span class="font-semibold text-gray-900">Starts {{ $course->cohort_starts_at->format('F j, Y') }}</span>
+                                </p>
+                            @endif
+                        </div>
+
+                        @if($course->waitlist_url)
+                            <a href="{{ $course->waitlist_url }}" target="_blank" rel="noopener"
+                               class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition shadow flex items-center justify-center gap-2">
+                                <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                                Join the Waitlist
+                            </a>
+                            <p class="text-center mt-2 text-xs text-gray-400">Opens Dr. Soje's registration form in a new tab. She'll reach out once the cohort is confirmed.</p>
+                        @else
+                            <div class="w-full py-3.5 bg-gray-50 text-gray-500 border border-gray-200 font-bold rounded-xl flex items-center justify-center gap-2 text-sm">
+                                Waitlist opening soon
+                            </div>
+                        @endif
+                    @else
                     <div class="flex items-baseline gap-2 mb-4">
                         <span class="text-2xl font-extrabold text-gray-900">₦{{ number_format($course->price, 2) }}</span>
                         @if($course->original_price)
@@ -463,6 +489,7 @@
                             <i data-lucide="circle-x" class="w-4 h-4"></i>
                             Access Revoked
                         </a>
+                    @endif
                     @endif
 
                     <ul class="mt-5 space-y-2.5 text-sm text-gray-600">

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('external-courses')->name('admin.external-courses.')->group(function () {
     Route::get('/', [ExternalCourseController::class, 'index'])->name('index');
     Route::post('/{slug}/toggle', [ExternalCourseController::class, 'toggle'])->name('toggle');
+    Route::post('/{slug}/import', [ExternalCourseController::class, 'import'])->name('import');
 });
 
 Route::prefix('services')->name('admin.services.')->group(function () {

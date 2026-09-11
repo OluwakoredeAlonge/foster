@@ -34,7 +34,10 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
                 @forelse($courses as $course)
-                    @php $isHidden = isset($hidden[$course['slug']]); @endphp
+                    @php
+                        $isHidden = isset($hidden[$course['slug']]);
+                        $isImported = in_array($course['slug'], $importedSlugs, true);
+                    @endphp
                     <tr class="hover:bg-gray-50">
                         <td class="px-5 py-3">
                             <div class="flex items-center gap-3">
@@ -69,12 +72,28 @@
                             @endif
                         </td>
                         <td class="px-5 py-3 text-right">
-                            <form method="POST" action="{{ route('admin.external-courses.toggle', $course['slug']) }}" class="inline">
-                                @csrf
-                                <button type="submit" class="text-xs font-semibold {{ $isHidden ? 'text-emerald-700 hover:text-emerald-900' : 'text-red-600 hover:text-red-800' }}">
-                                    {{ $isHidden ? 'Show on site' : 'Hide from site' }}
-                                </button>
-                            </form>
+                            <div class="flex items-center justify-end gap-3">
+                                @if($isImported)
+                                    <span class="text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+                                        Imported
+                                    </span>
+                                @else
+                                    <form method="POST" action="{{ route('admin.external-courses.import', $course['slug']) }}" class="inline">
+                                        @csrf
+                                        <button type="submit" class="text-xs font-semibold text-blue-600 hover:text-blue-800"
+                                            onclick="return confirm('Import this course into the local database? It becomes a fully independent course you can edit under Course Platform > Courses, and will be hidden from this pulled-courses feed.')">
+                                            Import to Fosterheirs
+                                        </button>
+                                    </form>
+                                @endif
+                                <form method="POST" action="{{ route('admin.external-courses.toggle', $course['slug']) }}" class="inline">
+                                    @csrf
+                                    <button type="submit" class="text-xs font-semibold {{ $isHidden ? 'text-emerald-700 hover:text-emerald-900' : 'text-red-600 hover:text-red-800' }}">
+                                        {{ $isHidden ? 'Show on site' : 'Hide from site' }}
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

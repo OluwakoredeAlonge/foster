@@ -50,6 +50,9 @@ class AdminCourseController extends Controller
                 'has_certificate' => $request->boolean('has_certificate'),
                 'access_duration_months' => $validated['access_duration_months'] ?? null,
                 'requires_registration' => $request->boolean('requires_registration'),
+                'is_cohort' => $request->boolean('is_cohort'),
+                'cohort_starts_at' => $validated['cohort_starts_at'] ?? null,
+                'waitlist_url' => $validated['waitlist_url'] ?? null,
             ]);
 
             $this->syncWeeks($course, $validated['weeks'] ?? []);
@@ -86,6 +89,9 @@ class AdminCourseController extends Controller
                 'has_certificate' => $request->boolean('has_certificate'),
                 'access_duration_months' => $validated['access_duration_months'] ?? null,
                 'requires_registration' => $request->boolean('requires_registration'),
+                'is_cohort' => $request->boolean('is_cohort'),
+                'cohort_starts_at' => $validated['cohort_starts_at'] ?? null,
+                'waitlist_url' => $validated['waitlist_url'] ?? null,
             ];
 
             if ($request->hasFile('course_image')) {
@@ -143,6 +149,9 @@ class AdminCourseController extends Controller
                 'has_certificate' => $course->has_certificate,
                 'access_duration_months' => $course->access_duration_months,
                 'requires_registration' => $course->requires_registration,
+                'is_cohort' => $course->is_cohort,
+                'cohort_starts_at' => $course->cohort_starts_at,
+                'waitlist_url' => $course->waitlist_url,
                 'is_published' => false,
                 'created_by' => Auth::id(),
             ]);
@@ -232,6 +241,9 @@ class AdminCourseController extends Controller
             'has_certificate' => ['nullable', 'boolean'],
             'access_duration_months' => ['nullable', 'integer', 'min:1', 'max:'.Course::MAX_ACCESS_DURATION_MONTHS],
             'requires_registration' => ['nullable', 'boolean'],
+            'is_cohort' => ['nullable', 'boolean'],
+            'cohort_starts_at' => ['nullable', 'date'],
+            'waitlist_url' => ['nullable', 'required_if:is_cohort,1', 'url', 'max:500'],
             'materials' => ['nullable', 'array'],
             'materials.*' => ['file', 'max:'.self::MATERIAL_MAX_KB, $this->isPdfRule()],
             'material_weeks' => ['nullable', 'array'],

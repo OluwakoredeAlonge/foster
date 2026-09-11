@@ -184,6 +184,40 @@
                                 </span>
                             </label>
                         </div>
+
+                        <div class="md:col-span-2 border-t border-gray-100 pt-4" x-data="{ isCohort: {{ old('is_cohort', $course->is_cohort ?? false) ? 'true' : 'false' }} }">
+                            <label class="flex items-start gap-2 text-sm font-semibold text-gray-700">
+                                <input type="checkbox" name="is_cohort" value="1" x-model="isCohort"
+                                    {{ old('is_cohort', $course->is_cohort ?? false) ? 'checked' : '' }}
+                                    class="mt-0.5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                                <span>
+                                    This is a cohort-based program
+                                    <span class="block text-xs text-gray-400 font-normal mt-0.5">Runs on a set start date instead of instant access. The storefront shows a "Join the Waitlist" button linking to your Google Form instead of "Buy now".</span>
+                                </span>
+                            </label>
+
+                            <div x-show="isCohort" x-cloak class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pl-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Cohort Start Date</label>
+                                    <input type="date" name="cohort_starts_at"
+                                        value="{{ old('cohort_starts_at', optional($course->cohort_starts_at ?? null)->format('Y-m-d')) }}"
+                                        class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent @error('cohort_starts_at') border-red-400 @else border-gray-300 @enderror">
+                                    @error('cohort_starts_at')
+                                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Google Form Waitlist URL</label>
+                                    <input type="url" name="waitlist_url" placeholder="https://forms.google.com/..."
+                                        value="{{ old('waitlist_url', $course->waitlist_url ?? '') }}"
+                                        class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent @error('waitlist_url') border-red-400 @else border-gray-300 @enderror">
+                                    @error('waitlist_url')
+                                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

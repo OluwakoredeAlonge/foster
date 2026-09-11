@@ -159,6 +159,12 @@
                                         Certificate
                                     </span>
                                 @endif
+                                @if($course->is_cohort)
+                                    <span class="inline-flex w-fit items-center gap-1 text-[11px] font-bold uppercase tracking-wide text-amber-700 bg-amber-50 px-2 py-0.5 rounded">
+                                        <i data-lucide="users" class="w-3 h-3"></i>
+                                        Cohort
+                                    </span>
+                                @endif
                             </div>
                             @if($course->category)
                                 <span class="text-[11px] text-gray-400 font-medium mb-1">{{ $course->category->name }}</span>
@@ -176,9 +182,13 @@
                             @endif
 
                             <div class="flex items-baseline gap-2 pt-2 mt-auto border-t border-gray-50">
-                                <span class="text-lg font-extrabold text-gray-900 mt-2">₦{{ number_format($course->price, 0) }}</span>
-                                @if($course->original_price)
-                                    <span class="text-sm text-gray-400 line-through mt-2">₦{{ number_format($course->original_price, 0) }}</span>
+                                @if($course->is_cohort)
+                                    <span class="text-sm font-bold text-emerald-700 mt-2">Join the waitlist</span>
+                                @else
+                                    <span class="text-lg font-extrabold text-gray-900 mt-2">₦{{ number_format($course->price, 0) }}</span>
+                                    @if($course->original_price)
+                                        <span class="text-sm text-gray-400 line-through mt-2">₦{{ number_format($course->original_price, 0) }}</span>
+                                    @endif
                                 @endif
                             </div>
                         </div>

@@ -27,6 +27,9 @@ class Course extends Model
         'rating_avg',
         'ratings_count',
         'created_by',
+        'is_cohort',
+        'cohort_starts_at',
+        'waitlist_url',
     ];
 
     protected $casts = [
@@ -38,6 +41,8 @@ class Course extends Model
         'requires_registration' => 'boolean',
         'rating_avg' => 'decimal:2',
         'ratings_count' => 'integer',
+        'is_cohort' => 'boolean',
+        'cohort_starts_at' => 'date',
     ];
 
     /** The longest limited-access duration an admin can set; null means lifetime. */
