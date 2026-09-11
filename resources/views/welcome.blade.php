@@ -10,80 +10,36 @@
 </head>
 <body class="bg-white text-slate-800 antialiased">
 
-<!-- ============ HEADER / NAV ============ -->
-<header id="site-header" class="fixed inset-x-0 top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-100 transition-shadow">
-  <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-    <a href="#home" class="flex items-center gap-2">
-      <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-700 text-white">
-        <i data-lucide="cross" class="h-5 w-5"></i>
-      </span>
-      <span class="leading-tight">
-        <span class="block text-sm font-bold tracking-wide text-slate-900">FOSTERHEIRS</span>
-        <span class="block text-[10px] font-medium uppercase tracking-widest text-emerald-700">Mental Health Consultancy</span>
-      </span>
-    </a>
-
-    <div class="hidden items-center gap-7 lg:flex">
-      <a href="#about" class="text-sm font-medium text-slate-600 hover:text-emerald-700">About</a>
-      <a href="#team" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Our Therapists</a>
-      <a href="#services" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Services</a>
-      <a href="#courses" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Courses</a>
-      <a href="#books" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Books</a>
-      <a href="#resources" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Resources</a>
-      <a href="#testimonials" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Testimonials</a>
-    </div>
-
-    <div class="flex items-center gap-3">
-      <a href="#contact" class="hidden rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 sm:inline-flex">
-        Book a Session
-      </a>
-      <button id="menu-btn" aria-expanded="false" aria-label="Toggle menu" class="inline-flex items-center justify-center rounded-lg border border-slate-200 p-2 text-slate-700 lg:hidden">
-        <i data-lucide="menu" class="h-5 w-5"></i>
-        <i data-lucide="x" class="hidden h-5 w-5"></i>
-      </button>
-    </div>
-  </nav>
-
-  <div id="mobile-nav" class="hidden border-t border-slate-100 bg-white px-5 py-4 lg:hidden">
-    <div class="flex flex-col gap-4">
-      <a href="#about" class="text-sm font-medium text-slate-700">About</a>
-      <a href="#team" class="text-sm font-medium text-slate-700">Our Therapists</a>
-      <a href="#services" class="text-sm font-medium text-slate-700">Services</a>
-      <a href="#courses" class="text-sm font-medium text-slate-700">Courses</a>
-      <a href="#books" class="text-sm font-medium text-slate-700">Books</a>
-      <a href="#resources" class="text-sm font-medium text-slate-700">Resources</a>
-      <a href="#testimonials" class="text-sm font-medium text-slate-700">Testimonials</a>
-      <a href="#contact" class="mt-2 inline-flex justify-center rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white">Book a Session</a>
-    </div>
-  </div>
-</header>
+@include('partials.site-header')
 
 <main>
 
 <!-- ============ HERO ============ -->
-<section id="home" class="relative overflow-hidden bg-gradient-to-b from-emerald-50 via-white to-white pt-32 pb-20 lg:pt-40 lg:pb-28">
-  <div class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-emerald-100 blur-3xl"></div>
-  <div class="pointer-events-none absolute -left-24 top-1/2 h-72 w-72 rounded-full bg-amber-100 blur-3xl"></div>
+<section id="home" class="relative isolate overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <img src="{{ asset('images/hero/slider2.jpg') }}" alt="" class="h-full w-full object-cover object-top" />
+    <div class="absolute inset-0 bg-gradient-to-b from-emerald-950/85 via-emerald-950/75 to-emerald-950"></div>
+  </div>
 
-  <div class="relative mx-auto max-w-7xl px-5 lg:px-8">
+  <div class="relative mx-auto max-w-7xl px-5 pb-20 pt-40 lg:px-8 lg:pb-28 lg:pt-52">
     <div class="mx-auto max-w-3xl text-center">
-      <span class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-emerald-800">
+      <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-emerald-50 backdrop-blur">
         <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
         Medicine &middot; Psychology &middot; Faith
       </span>
-      <h1 class="mt-6 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl lg:text-6xl">
-        Healing Minds.<br class="hidden sm:block" /> Restoring Homes. <span class="text-emerald-700">Renewing Hope.</span>
+      <h1 class="mt-6 text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+        Healing Minds.<br class="hidden sm:block" /> Restoring Homes. <span class="text-amber-400">Renewing Hope.</span>
       </h1>
-      <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
+      <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-emerald-50/90 sm:text-lg">
         Fosterheirs Mental Health Consultancy is a team of licensed, faith-integrated therapists led by
         Dr. Anthonia Yemisi Soje, walking with individuals and families through trauma, addiction, and
         marital healing, because lasting recovery honours the whole person: mind, body, and soul.
       </p>
       <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a href="#contact" class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-700/20 transition hover:bg-emerald-800 sm:w-auto">
+        <a href="#contact" class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-amber-400 px-6 py-3 text-sm font-semibold text-emerald-950 shadow-lg shadow-black/20 transition hover:bg-amber-300 sm:w-auto">
           Book a Session <i data-lucide="arrow-right" class="h-4 w-4"></i>
         </a>
-        <a href="#team" class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-700 hover:text-emerald-700 sm:w-auto">
+        <a href="#team" class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 sm:w-auto">
           Meet Our Therapists
         </a>
       </div>
@@ -92,20 +48,20 @@
     <!-- Stats -->
     <div class="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-6 sm:grid-cols-4">
       <div class="text-center">
-        <p class="text-3xl font-extrabold text-emerald-700 sm:text-4xl"><span data-counter="10" data-suffix="+">0</span></p>
-        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Published Books</p>
+        <p class="text-3xl font-extrabold text-amber-400 sm:text-4xl"><span data-counter="10" data-suffix="+">0</span></p>
+        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-emerald-100">Published Books</p>
       </div>
       <div class="text-center">
-        <p class="text-3xl font-extrabold text-emerald-700 sm:text-4xl"><span data-counter="180" data-suffix="+">0</span></p>
-        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Lives Transformed</p>
+        <p class="text-3xl font-extrabold text-amber-400 sm:text-4xl"><span data-counter="180" data-suffix="+">0</span></p>
+        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-emerald-100">Lives Transformed</p>
       </div>
       <div class="text-center">
-        <p class="text-3xl font-extrabold text-emerald-700 sm:text-4xl"><span data-counter="20" data-suffix="+">0</span></p>
-        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Marriages Restored</p>
+        <p class="text-3xl font-extrabold text-amber-400 sm:text-4xl"><span data-counter="20" data-suffix="+">0</span></p>
+        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-emerald-100">Marriages Restored</p>
       </div>
       <div class="text-center">
-        <p class="text-3xl font-extrabold text-emerald-700 sm:text-4xl"><span data-counter="18" data-suffix="+">0</span></p>
-        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Addicts Rehabilitated</p>
+        <p class="text-3xl font-extrabold text-amber-400 sm:text-4xl"><span data-counter="18" data-suffix="+">0</span></p>
+        <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-emerald-100">Addicts Rehabilitated</p>
       </div>
     </div>
   </div>
@@ -114,41 +70,51 @@
 <!-- ============ ABOUT ============ -->
 <section id="about" class="py-20 lg:py-28">
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center">
-      <span class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Who We Are</span>
-      <h2 class="mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">A Team Devoted to Whole-Person Healing</h2>
-      <p class="mt-4 text-base leading-relaxed text-slate-600">
-        Founded in 2023 and based within the Heirs Specialist Hospital Complex in Oye-Ekiti, Nigeria,
-        Fosterheirs brings together medical practitioners, licensed therapists, and faith-integrated
-        counsellors under one roof. We believe lasting healing must address the mind, the body, and the
-        soul together, so every session blends clinical expertise with compassionate, faith-anchored care.
-      </p>
-    </div>
+    <div class="grid items-center gap-12 lg:grid-cols-2">
+      <div class="order-2 lg:order-1">
+        <span class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Who We Are</span>
+        <h2 class="mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">A Team Devoted to Whole-Person Healing</h2>
+        <p class="mt-4 text-base leading-relaxed text-slate-600">
+          Founded in 2023 and based within the Heirs Specialist Hospital Complex in Oye-Ekiti, Nigeria,
+          Fosterheirs brings together medical practitioners, licensed therapists, and faith-integrated
+          counsellors under one roof. We believe lasting healing must address the mind, the body, and the
+          soul together, so every session blends clinical expertise with compassionate, faith-anchored care.
+        </p>
 
-    <div class="mt-14 grid grid-cols-2 gap-5 lg:grid-cols-4">
-      <div class="rounded-2xl border border-slate-100 bg-slate-50 p-6 text-center">
-        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-          <i data-lucide="stethoscope" class="h-6 w-6"></i>
+        <div class="mt-8 grid grid-cols-2 gap-5">
+          <div class="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+              <i data-lucide="stethoscope" class="h-5 w-5"></i>
+            </div>
+            <p class="text-sm font-bold text-slate-900">Medical Intervention</p>
+          </div>
+          <div class="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+              <i data-lucide="brain" class="h-5 w-5"></i>
+            </div>
+            <p class="text-sm font-bold text-slate-900">Psychological Therapy</p>
+          </div>
+          <div class="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+              <i data-lucide="users" class="h-5 w-5"></i>
+            </div>
+            <p class="text-sm font-bold text-slate-900">Social Rehabilitation</p>
+          </div>
+          <div class="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+              <i data-lucide="sparkles" class="h-5 w-5"></i>
+            </div>
+            <p class="text-sm font-bold text-slate-900">Spiritual Anchoring</p>
+          </div>
         </div>
-        <p class="mt-4 text-sm font-bold text-slate-900">Medical Intervention</p>
       </div>
-      <div class="rounded-2xl border border-slate-100 bg-slate-50 p-6 text-center">
-        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-          <i data-lucide="brain" class="h-6 w-6"></i>
+
+      <div class="order-1 lg:order-2">
+        <div class="relative">
+          <div class="absolute -inset-4 -z-10 rounded-[2rem] bg-emerald-50"></div>
+          <img src="{{ asset('images/hero/psychotherapy.jpg') }}" alt="Difficult roads lead to beautiful destinations"
+               class="aspect-[4/5] w-full rounded-2xl object-cover shadow-xl" />
         </div>
-        <p class="mt-4 text-sm font-bold text-slate-900">Psychological Therapy</p>
-      </div>
-      <div class="rounded-2xl border border-slate-100 bg-slate-50 p-6 text-center">
-        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-          <i data-lucide="users" class="h-6 w-6"></i>
-        </div>
-        <p class="mt-4 text-sm font-bold text-slate-900">Social Rehabilitation</p>
-      </div>
-      <div class="rounded-2xl border border-slate-100 bg-slate-50 p-6 text-center">
-        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-          <i data-lucide="sparkles" class="h-6 w-6"></i>
-        </div>
-        <p class="mt-4 text-sm font-bold text-slate-900">Spiritual Anchoring</p>
       </div>
     </div>
 
@@ -262,15 +228,23 @@
       </p>
     </div>
 
-    <div id="courses-grid" class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <!-- Loading skeletons, replaced by assets/js/main.js via getAllCourses() -->
-      <div class="h-72 animate-pulse rounded-2xl bg-slate-200"></div>
-      <div class="h-72 animate-pulse rounded-2xl bg-slate-200"></div>
-      <div class="h-72 animate-pulse rounded-2xl bg-slate-200"></div>
-      <div class="h-72 animate-pulse rounded-2xl bg-slate-200"></div>
+    @if (empty($featuredCourses))
+      <p class="mt-14 text-center text-sm text-slate-400">Check back soon, new courses are on the way.</p>
+    @else
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        @foreach ($featuredCourses as $course)
+          @include('partials.course-card', ['course' => $course])
+        @endforeach
+      </div>
+    @endif
+
+    <div class="mt-10 text-center">
+      <a href="{{ route('course-catalog') }}" class="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-700 hover:text-emerald-700">
+        Load More Courses <i data-lucide="arrow-right" class="h-4 w-4"></i>
+      </a>
     </div>
 
-    <p class="mt-8 text-center text-xs text-slate-400">
+    <p class="mt-6 text-center text-xs text-slate-400">
       Team member? <a href="{{ route('admin') }}" class="font-medium text-emerald-700 hover:underline">Manage courses in the admin portal</a>
     </p>
   </div>
@@ -288,61 +262,50 @@
       </p>
     </div>
 
-    <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="rounded-2xl border border-slate-100 p-5">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Faith &amp; Identity</span>
-        <h3 class="mt-2 text-sm font-bold text-slate-900">Balance: Living Fully Without Losing Yourself</h3>
-        <p class="mt-2 text-xs leading-relaxed text-slate-600">A roadmap to living intentionally and wholly, without sacrificing purpose or identity.</p>
-        <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-5">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Memoir</span>
-        <h3 class="mt-2 text-sm font-bold text-slate-900">July 19th: An Encounter With The Enigma</h3>
-        <p class="mt-2 text-xs leading-relaxed text-slate-600">Pain transformed into purpose: a testament to healing after deep personal trial.</p>
-        <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-5">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Marriage &amp; Relationships</span>
-        <h3 class="mt-2 text-sm font-bold text-slate-900">Echoes of Eden</h3>
-        <p class="mt-2 text-xs leading-relaxed text-slate-600">Building healthy homes and nurturing relationships rooted in love and purpose.</p>
-        <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-5">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Addiction Recovery</span>
-        <h3 class="mt-2 text-sm font-bold text-slate-900">The Addiction Compass</h3>
-        <p class="mt-2 text-xs leading-relaxed text-slate-600">A guide to understanding addiction, navigating recovery, and building lasting sobriety.</p>
-        <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-5">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Devotional</span>
-        <h3 class="mt-2 text-sm font-bold text-slate-900">Unshackled</h3>
-        <p class="mt-2 text-xs leading-relaxed text-slate-600">Daily faith anchors for those in recovery, breaking free from addiction's chains.</p>
-        <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-5">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Psychology</span>
-        <h3 class="mt-2 text-sm font-bold text-slate-900">Unmasking You</h3>
-        <p class="mt-2 text-xs leading-relaxed text-slate-600">A guide to personality disorders: understanding human behaviour and emotional patterns.</p>
-        <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-5">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Identity &amp; Faith</span>
-        <h3 class="mt-2 text-sm font-bold text-slate-900">Anchored</h3>
-        <p class="mt-2 text-xs leading-relaxed text-slate-600">Exploring identity and self-worth through faith-based encouragement for solid ground.</p>
-        <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
-      </div>
-      <div class="rounded-2xl border border-slate-100 p-5">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Trauma Healing</span>
-        <h3 class="mt-2 text-sm font-bold text-slate-900">Sanctuary</h3>
-        <p class="mt-2 text-xs leading-relaxed text-slate-600">A journey through trauma healing, psychological restoration, and spiritual wholeness.</p>
-        <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
-      </div>
+    <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      @php
+        $books = [
+          ['image' => 'echoes-of-eden.jpg', 'category' => 'Marriage & Relationships', 'title' => 'Echoes of Eden', 'blurb' => "God's design for marriage and sexuality, building healthy homes rooted in love and purpose."],
+          ['image' => 'addiction-compass.jpg', 'category' => 'Addiction Recovery', 'title' => 'The Addiction Compass', 'blurb' => 'Navigating understanding, healing, and hope through the complex nature of addiction.'],
+          ['image' => 'unshackled.jpg', 'category' => 'Devotional', 'title' => 'Unshackled', 'blurb' => 'A devotional for addiction recovery, daily faith anchors for breaking free.'],
+          ['image' => 'unmasking-you.jpg', 'category' => 'Psychology', 'title' => 'Unmasking You', 'blurb' => 'A guide to personality disorders: understanding human behaviour and emotional patterns.'],
+          ['image' => 'anchored.jpg', 'category' => 'Identity & Faith', 'title' => 'Anchored', 'blurb' => 'Finding your worth and identity in Christ, for solid ground when you feel not enough.'],
+          ['image' => 'sanctuary.jpg', 'category' => 'Trauma Healing', 'title' => 'Sanctuary', 'blurb' => 'Finding psychological and spiritual wholeness after sexual assault.'],
+          ['image' => 'fourfold-path.jpg', 'category' => 'Addiction Recovery', 'title' => 'The Fourfold Path to Freedom', 'blurb' => 'A biopsychosociospiritual approach to quitting addictions.'],
+          ['image' => 'feelings-and-faith.jpg', 'category' => 'Parenting', 'title' => 'Feelings and Faith', 'blurb' => 'Helping parents guide children to manage feelings with the compass of faith.'],
+        ];
+      @endphp
+      @foreach ($books as $book)
+        <div class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:shadow-lg">
+          @if ($book['image'])
+            <div class="aspect-[4/5] overflow-hidden bg-slate-50">
+              <img src="{{ asset('images/books/' . $book['image']) }}" alt="{{ $book['title'] }}"
+                   class="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+            </div>
+          @else
+            <div class="flex aspect-[4/5] items-center justify-center bg-gradient-to-br from-amber-50 to-emerald-50">
+              <i data-lucide="book-open" class="h-10 w-10 text-emerald-300"></i>
+            </div>
+          @endif
+          <div class="p-5">
+            <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">{{ $book['category'] }}</span>
+            <h3 class="mt-2 text-sm font-bold text-slate-900">{{ $book['title'] }}</h3>
+            <p class="mt-2 text-xs leading-relaxed text-slate-600">{{ $book['blurb'] }}</p>
+            <a href="#" class="mt-4 inline-block text-xs font-semibold text-emerald-700 hover:underline">View Book &rarr;</a>
+          </div>
+        </div>
+      @endforeach
     </div>
   </div>
 </section>
 
 <!-- ============ ORGANIZATION / IMPACT ============ -->
-<section id="organization" class="bg-emerald-900 py-20 text-white lg:py-28">
+<section id="organization" class="relative isolate overflow-hidden py-20 text-white lg:py-28">
+  <div class="absolute inset-0 -z-10">
+    <img src="{{ asset('images/hero/dont-give-up.jpg') }}" alt="" class="h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-emerald-950/90"></div>
+  </div>
+
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <span class="text-xs font-semibold uppercase tracking-widest text-amber-400">Our Impact</span>
@@ -370,32 +333,32 @@
     </div>
 
     <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="rounded-2xl bg-emerald-800/60 p-6">
+      <div class="rounded-2xl bg-emerald-900/70 p-6 backdrop-blur">
         <i data-lucide="glass-water" class="h-6 w-6 text-amber-400"></i>
         <p class="mt-3 text-sm font-bold">Drug &amp; Alcohol Rehab</p>
         <p class="mt-1 text-xs text-emerald-200">Comprehensive recovery programmes</p>
       </div>
-      <div class="rounded-2xl bg-emerald-800/60 p-6">
+      <div class="rounded-2xl bg-emerald-900/70 p-6 backdrop-blur">
         <i data-lucide="heart-handshake" class="h-6 w-6 text-amber-400"></i>
         <p class="mt-3 text-sm font-bold">Marriage Restoration</p>
         <p class="mt-1 text-xs text-emerald-200">Rebuilding broken bonds</p>
       </div>
-      <div class="rounded-2xl bg-emerald-800/60 p-6">
+      <div class="rounded-2xl bg-emerald-900/70 p-6 backdrop-blur">
         <i data-lucide="brain" class="h-6 w-6 text-amber-400"></i>
         <p class="mt-3 text-sm font-bold">Trauma Recovery</p>
         <p class="mt-1 text-xs text-emerald-200">Psycho-trauma therapy</p>
       </div>
-      <div class="rounded-2xl bg-emerald-800/60 p-6">
+      <div class="rounded-2xl bg-emerald-900/70 p-6 backdrop-blur">
         <i data-lucide="shield-check" class="h-6 w-6 text-amber-400"></i>
         <p class="mt-3 text-sm font-bold">Relapse Prevention</p>
         <p class="mt-1 text-xs text-emerald-200">Ongoing support systems</p>
       </div>
     </div>
 
-    <div class="mt-14 flex flex-col items-center justify-between gap-6 rounded-2xl bg-emerald-800/60 p-6 sm:flex-row">
+    <div class="mt-14 flex flex-col items-center justify-between gap-6 rounded-2xl bg-emerald-900/70 p-6 backdrop-blur sm:flex-row">
       <div class="flex items-center gap-4">
         <i data-lucide="map-pin" class="h-6 w-6 shrink-0 text-amber-400"></i>
-        <p class="text-sm text-emerald-100">Heirs Specialist Hospital Complex, Oye-Ekiti, Ekiti State, Nigeria</p>
+        <p class="text-sm text-emerald-100">Heirs Specialist Hospital, Beside Aluko House, Irare Estate, Oye-Ekiti, Ekiti State</p>
       </div>
       <a href="https://www.google.com/maps/search/Heirs+Specialist+Hospital+Complex+Oye-Ekiti" target="_blank" rel="noopener" class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-semibold text-emerald-950 transition hover:bg-amber-300">
         Get Directions
@@ -471,7 +434,18 @@
       <p class="mt-4 text-base leading-relaxed text-slate-600">Real stories from clients who've walked through healing with our therapists.</p>
     </div>
 
-    <div class="mt-14 grid gap-6 lg:grid-cols-3">
+    <div class="mt-14 grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
+        <div class="flex gap-0.5 text-amber-400">
+          <i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i>
+        </div>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600">
+          "One of the best experiences ever. I really had a very good and refreshing moment during my
+          consultation and I am happy with myself again after overcoming all my difficult situations."
+        </p>
+        <p class="mt-4 text-sm font-bold text-slate-900">Famurewa Oluwafisayo</p>
+        <p class="text-xs text-slate-500">Fosterheirs Client</p>
+      </div>
       <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-100">
         <div class="flex gap-0.5 text-amber-400">
           <i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i><i data-lucide="star" class="h-4 w-4 fill-current"></i>
@@ -525,14 +499,21 @@
           <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="map-pin" class="h-5 w-5"></i></div>
           <div>
             <p class="text-sm font-bold text-slate-900">Office Address</p>
-            <p class="mt-1 text-sm text-slate-600">Fosterheirs, Heirs Specialist Hospital Complex,<br />Oye-Ekiti, Ekiti State, Nigeria</p>
+            <p class="mt-1 text-sm text-slate-600">Heirs Specialist Hospital, Beside Aluko House,<br />Irare Estate, Oye-Ekiti, Ekiti State</p>
           </div>
         </div>
         <div class="flex items-start gap-4">
           <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="phone" class="h-5 w-5"></i></div>
           <div>
             <p class="text-sm font-bold text-slate-900">Phone / WhatsApp</p>
-            <p class="mt-1 text-sm text-slate-600">0704 248 1085</p>
+            <p class="mt-1 text-sm text-slate-600">0704 248 1085 &middot; 0806 643 5831</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><i data-lucide="mail" class="h-5 w-5"></i></div>
+          <div>
+            <p class="text-sm font-bold text-slate-900">Email</p>
+            <p class="mt-1 text-sm text-slate-600">heirsfosterproject@gmail.com</p>
           </div>
         </div>
         <div class="flex items-start gap-4">
@@ -613,55 +594,8 @@
 
 </main>
 
-<!-- ============ FOOTER ============ -->
-<footer class="bg-slate-950 py-16 text-slate-300">
-  <div class="mx-auto max-w-7xl px-5 lg:px-8">
-    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-      <div>
-        <div class="flex items-center gap-2">
-          <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-700 text-white"><i data-lucide="cross" class="h-5 w-5"></i></span>
-          <span class="text-sm font-bold tracking-wide text-white">FOSTERHEIRS</span>
-        </div>
-        <p class="mt-4 text-sm leading-relaxed text-slate-400">
-          A team of licensed, faith-integrated therapists bridging medicine, psychology, and faith to
-          restore lives and rebuild homes across Nigeria and beyond.
-        </p>
-      </div>
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-wide text-white">Quick Links</p>
-        <ul class="mt-4 space-y-2 text-sm text-slate-400">
-          <li><a href="#about" class="hover:text-white">About</a></li>
-          <li><a href="#team" class="hover:text-white">Our Therapists</a></li>
-          <li><a href="#courses" class="hover:text-white">Courses</a></li>
-          <li><a href="#books" class="hover:text-white">Books</a></li>
-          <li><a href="#resources" class="hover:text-white">Resources</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-wide text-white">Services</p>
-        <ul class="mt-4 space-y-2 text-sm text-slate-400">
-          <li><a href="#services" class="hover:text-white">Trauma Therapy</a></li>
-          <li><a href="#services" class="hover:text-white">Addiction Recovery</a></li>
-          <li><a href="#services" class="hover:text-white">Marriage Counselling</a></li>
-          <li><a href="#contact" class="hover:text-white">Book a Session</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-wide text-white">Contact</p>
-        <ul class="mt-4 space-y-2 text-sm text-slate-400">
-          <li>Oye-Ekiti, Ekiti State, Nigeria</li>
-          <li>0704 248 1085</li>
-        </ul>
-      </div>
-    </div>
-    <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-8 text-xs text-slate-500 sm:flex-row">
-      <p>&copy; 2026 Fosterheirs Mental Health Consultancy. All rights reserved.</p>
-      <p>Founded by Dr. Anthonia Yemisi Soje</p>
-    </div>
-  </div>
-</footer>
+@include('partials.site-footer')
 
-<script src="{{ asset('assets/js/courses.js') }}?v={{ filemtime(public_path('assets/js/courses.js')) }}"></script>
 <script src="{{ asset('assets/js/main.js') }}?v={{ filemtime(public_path('assets/js/main.js')) }}"></script>
 </body>
 </html>

@@ -1,10 +1,16 @@
 <?php
 
+use App\Http\Controllers\CourseCatalogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Full, paginated listing of pulled courses. Distinct from /courses,
+// which is the imported heirs commerce storefront for courses hosted
+// locally on this app.
+Route::get('/course-catalog', [CourseCatalogController::class, 'index'])->name('course-catalog');
 
 // The old localStorage-only course admin prototype is retired now that
 // /admin/courses (routes/admin-courses.php) is a real, database-backed

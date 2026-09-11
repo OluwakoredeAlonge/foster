@@ -56,7 +56,7 @@ class PublicCourseController extends Controller
         // (single page); `meta.total` still reflects the partner's count,
         // not what's actually visible here.
         return response()->json([
-            'data' => array_map($this->trim(...), $visibleItems),
+            'data' => array_map($this->courses->toPublicArray(...), $visibleItems),
             'meta' => Arr::only($result['meta'], ['current_page', 'last_page', 'per_page', 'total']),
         ]);
     }
@@ -87,25 +87,6 @@ class PublicCourseController extends Controller
             return response()->json(['message' => 'Course not found.'], 404);
         }
 
-        return response()->json(['data' => $this->trim($course)]);
-    }
-
-    /**
-     * Reduce a raw partner course record down to the public allow-list and
-     * attach a storefront link, since this proxy never exposes gated content.
-     *
-     * @param  array<string, mixed>  $course
-     * @return array<string, mixed>
-     */
-    protected function trim(array $course): array
-    {
-        $safe = Arr::only($course, config('course_catalog.public_fields', []));
-
-        $template = config('course_catalog.storefront_url_template');
-        if ($template && isset($course['slug'])) {
-            $safe['purchase_url'] = str_replace('{slug}', $course['slug'], $template);
-        }
-
-        return $safe;
+        return response()->json(['data' => $this->courses->toPublicArray($course)]);
     }
 }

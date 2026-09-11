@@ -57,15 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     counters.forEach((el) => observer.observe(el));
   }
 
-  /* Courses grid (public site) */
-  const coursesGrid = document.getElementById("courses-grid");
-  if (coursesGrid && typeof getAllCourses === "function") {
-    getAllCourses().then((courses) => {
-      coursesGrid.innerHTML = courses.map(courseCardHTML).join("");
-      if (window.lucide) lucide.createIcons();
-    });
-  }
-
   /* Enquiry form (static prototype, no backend wired up yet) */
   const enquiryForm = document.getElementById("enquiry-form");
   const enquirySuccess = document.getElementById("enquiry-success");

@@ -3,7 +3,11 @@
 namespace App\Services;
 
 use App\Exceptions\PartnerCoursesApiException;
+use App\Models\ExternalCourseVisibility;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class PartnerCoursesClient
@@ -55,7 +59,50 @@ class PartnerCoursesClient
         return $body['data'] ?? $body;
     }
 
-    protected function request(): \Illuminate\Http\Client\PendingRequest
+    /**
+     * One page of the catalogue, admin-hidden courses excluded and every
+     * course reduced to the public allow-list. What both the homepage
+     * teaser and the full course catalog page render.
+     *
+     * @return array{items: array<int, array<string, mixed>>, meta: array<string, mixed>}
+     */
+    public function visiblePublicList(int $page = 1): array
+    {
+        $result = $this->list($page);
+        $hiddenSlugs = ExternalCourseVisibility::hiddenSlugs();
+
+        $visible = array_values(array_filter(
+            $result['items'],
+            fn (array $course) => ! in_array($course['slug'] ?? null, $hiddenSlugs, true)
+        ));
+
+        return [
+            'items' => array_map($this->toPublicArray(...), $visible),
+            'meta' => $result['meta'],
+        ];
+    }
+
+    /**
+     * Reduce a raw partner course record down to the public allow-list and
+     * attach a storefront link. This proxy never exposes gated content
+     * (week/resource titles, YouTube links, PDF downloads).
+     *
+     * @param  array<string, mixed>  $course
+     * @return array<string, mixed>
+     */
+    public function toPublicArray(array $course): array
+    {
+        $safe = Arr::only($course, config('course_catalog.public_fields', []));
+
+        $template = config('course_catalog.storefront_url_template');
+        if ($template && isset($course['slug'])) {
+            $safe['purchase_url'] = str_replace('{slug}', $course['slug'], $template);
+        }
+
+        return $safe;
+    }
+
+    protected function request(): PendingRequest
     {
         $baseUrl = config('course_catalog.base_url');
         $token = config('course_catalog.token');
@@ -73,9 +120,9 @@ class PartnerCoursesClient
     }
 
     /**
-     * @param  callable(): \Illuminate\Http\Client\Response  $callback
+     * @param  callable(): Response  $callback
      */
-    protected function send(callable $callback): \Illuminate\Http\Client\Response
+    protected function send(callable $callback): Response
     {
         try {
             return $callback();
