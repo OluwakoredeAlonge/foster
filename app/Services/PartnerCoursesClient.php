@@ -115,7 +115,25 @@ class PartnerCoursesClient
 
         return Http::withToken($token)
             ->baseUrl(rtrim($baseUrl, '/'))
-            ->timeout((int) config('course_catalog.timeout', 5))
+            ->timeout((int) config('course_catalog.timeout', 15))
+            // The partner app is hosted on Laravel Cloud, which sleeps
+            // when idle — the first request after a quiet spell pays a
+            // cold-start cost that a single short-timeout attempt can
+            // easily miss, surfacing as "could not reach the API" even
+            // though the app is fine once it's warm. Retrying once after
+            // a beat covers exactly that case without masking a real
+            // outage (it still gives up and surfaces the error normally
+            // if the second attempt also fails).
+            //
+            // `when` restricts retries to actual connection failures —
+            // without it, Laravel's HTTP client retries (and then
+            // auto-throws on) ANY non-2xx response, including a clean
+            // 404 from find() or a real 401, which list()/find() below
+            // already handle themselves by inspecting the response.
+            // `throw: false` stops it from throwing on those responses
+            // itself once retries are exhausted, leaving that decision
+            // to the calling method as before.
+            ->retry(2, 1500, when: fn ($exception) => $exception instanceof ConnectionException, throw: false)
             ->acceptJson();
     }
 
