@@ -7,15 +7,17 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\SuperAdminRegistrationController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+    // One-time setup for the single Fosterheirs admin account — see
+    // SuperAdminRegistrationController for why the link self-disables.
+    Route::get('superadmin/register', [SuperAdminRegistrationController::class, 'create'])
+        ->name('superadmin.register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('superadmin/register', [SuperAdminRegistrationController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');

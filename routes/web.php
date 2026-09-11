@@ -21,7 +21,11 @@ Route::redirect('/admin', '/admin/courses')->name('admin');
 // login/register/verify; keep that name working.
 Route::redirect('/dashboard', '/admin/courses')->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+// The page itself renders inside the admin dashboard shell (see
+// profile/edit.blade.php), so it's gated the same way the rest of the
+// admin area is — a logged-in student has no use for it and shouldn't
+// see the admin sidebar it's wrapped in.
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

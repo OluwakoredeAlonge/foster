@@ -90,12 +90,15 @@
     </nav>
 
     <div class="border-t border-slate-200 p-4">
-        <div class="mb-3 flex items-center gap-2 px-1">
+        <a href="{{ route('profile.edit') }}" class="mb-2 flex items-center gap-2 rounded-lg px-1 py-1.5 hover:bg-slate-50">
             <span class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">
                 {{ Str::of(auth()->user()->name)->substr(0, 1)->upper() }}
             </span>
             <span class="truncate text-sm font-medium text-slate-700">{{ auth()->user()->name }}</span>
-        </div>
+        </a>
+        <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-emerald-700">
+            <i data-lucide="settings" class="h-4 w-4"></i> My Account
+        </a>
         <a href="{{ route('home') }}" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-emerald-700">
             <i data-lucide="arrow-left" class="h-4 w-4"></i> Back to Site
         </a>
