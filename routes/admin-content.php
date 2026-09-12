@@ -3,9 +3,11 @@
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\ExternalCourseController;
+use App\Http\Controllers\Admin\LandingPageSettingController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SiteResourceController;
 use App\Http\Controllers\Admin\TeamMemberController;
+use App\Http\Controllers\Admin\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,4 +70,19 @@ Route::prefix('resources')->name('admin.site-resources.')->group(function () {
 Route::prefix('contact-settings')->name('admin.contact-settings.')->group(function () {
     Route::get('/', [ContactSettingController::class, 'edit'])->name('edit');
     Route::put('/', [ContactSettingController::class, 'update'])->name('update');
+});
+
+Route::prefix('landing-page')->name('admin.landing-page.')->group(function () {
+    Route::get('/', [LandingPageSettingController::class, 'edit'])->name('edit');
+    Route::put('/', [LandingPageSettingController::class, 'update'])->name('update');
+});
+
+Route::prefix('testimonials')->name('admin.testimonials.')->group(function () {
+    Route::get('/', [TestimonialController::class, 'index'])->name('index');
+    Route::get('/create', [TestimonialController::class, 'create'])->name('create');
+    Route::post('/', [TestimonialController::class, 'store'])->name('store');
+    Route::get('/{testimonial}/edit', [TestimonialController::class, 'edit'])->name('edit');
+    Route::put('/{testimonial}', [TestimonialController::class, 'update'])->name('update');
+    Route::delete('/{testimonial}', [TestimonialController::class, 'destroy'])->name('destroy');
+    Route::post('/{testimonial}/toggle', [TestimonialController::class, 'toggle'])->name('toggle');
 });

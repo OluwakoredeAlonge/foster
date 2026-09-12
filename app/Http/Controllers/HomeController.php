@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Exceptions\PartnerCoursesApiException;
 use App\Models\Book;
 use App\Models\Course;
+use App\Models\LandingPageSetting;
 use App\Models\Service;
 use App\Models\SiteResource;
 use App\Models\TeamMember;
+use App\Models\Testimonial;
 use App\Services\PartnerCoursesClient;
 use Illuminate\Support\Facades\Log;
 
@@ -18,10 +20,12 @@ class HomeController extends Controller
 
     public function index(PartnerCoursesClient $partnerCourses)
     {
+        $landingPage = LandingPageSetting::current();
         $services = Service::visible()->ordered()->get();
         $teamMembers = TeamMember::visible()->ordered()->get();
         $books = Book::visible()->ordered()->get();
         $siteResources = SiteResource::visible()->ordered()->get();
+        $testimonials = Testimonial::visible()->ordered()->get();
 
         // Local, imported courses lead — they have a real page and
         // checkout on this site. Still-external ("pulled") courses fill
@@ -43,6 +47,8 @@ class HomeController extends Controller
 
         $featuredCourses = array_slice([...$localCourses, ...$externalCourses], 0, self::FEATURED_COURSE_COUNT);
 
-        return view('welcome', compact('services', 'teamMembers', 'books', 'siteResources', 'featuredCourses'));
+        return view('welcome', compact(
+            'landingPage', 'services', 'teamMembers', 'books', 'siteResources', 'testimonials', 'featuredCourses'
+        ));
     }
 }

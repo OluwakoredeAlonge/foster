@@ -105,9 +105,7 @@
 
         <div class="flex flex-wrap items-center gap-4 mt-4 text-sm">
             <div class="flex items-center gap-1.5">
-                <div class="w-6 h-6 rounded-full overflow-hidden bg-emerald-700 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="cross" class="w-3.5 h-3.5 text-white"></i>
-                </div>
+                <img src="{{ asset('images/brand/logo-mark.png') }}" alt="" class="w-6 h-6 object-contain flex-shrink-0">
                 <span class="font-medium text-gray-700">Fosterheirs</span>
             </div>
             <div class="flex items-center gap-1 text-amber-500">

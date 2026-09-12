@@ -14,8 +14,10 @@
 @php
     $navGroups = [
         'Site Content' => [
+            ['route' => 'admin.landing-page.edit', 'label' => 'Landing Page', 'icon' => 'layout-template'],
             ['route' => 'admin.team-members.index', 'label' => 'Our Therapists', 'icon' => 'user-round'],
             ['route' => 'admin.services.index', 'label' => 'Services', 'icon' => 'heart-handshake'],
+            ['route' => 'admin.testimonials.index', 'label' => 'Testimonials', 'icon' => 'quote'],
             ['route' => 'admin.books.index', 'label' => 'Books', 'icon' => 'book-open'],
             ['route' => 'admin.site-resources.index', 'label' => 'Resources', 'icon' => 'newspaper'],
             ['route' => 'admin.contact-settings.edit', 'label' => 'Contact Settings', 'icon' => 'phone'],
