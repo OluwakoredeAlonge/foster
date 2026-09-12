@@ -231,10 +231,6 @@
         Load More Courses <i data-lucide="arrow-right" class="h-4 w-4"></i>
       </a>
     </div>
-
-    <p class="mt-6 text-center text-xs text-slate-400">
-      Team member? <a href="{{ route('admin') }}" class="font-medium text-emerald-700 hover:underline">Manage courses in the admin portal</a>
-    </p>
   </div>
 </section>
 
@@ -282,8 +278,16 @@
 <!-- ============ ORGANIZATION / IMPACT ============ -->
 <section id="organization" class="relative isolate overflow-hidden py-20 text-white lg:py-28">
   <div class="absolute inset-0 -z-10">
-    <img src="{{ $landingPage->organization_image_path ?: asset('images/hero/dont-give-up.jpg') }}" alt="" class="h-full w-full object-cover" />
-    <div class="absolute inset-0 bg-emerald-950/90"></div>
+    {{--
+      blur-sm + scale-110: this photo (and any admin-uploaded replacement)
+      can carry its own bold text/signage baked into the pixels — a plain
+      opacity overlay alone let that bleed through and fight with the
+      heading/stat text on top of it. Blurring it into a soft, indistinct
+      backdrop (scaled up so the blur doesn't reveal edges) plus a near-opaque
+      overlay keeps the mood of the photo without competing with real content.
+    --}}
+    <img src="{{ $landingPage->organization_image_path ?: asset('images/hero/dont-give-up.jpg') }}" alt="" class="h-full w-full scale-110 object-cover blur-sm" />
+    <div class="absolute inset-0 bg-emerald-950/95"></div>
   </div>
 
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
@@ -344,12 +348,16 @@
     </div>
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      @forelse ($siteResources as $resource)
-        <a href="{{ $resource->url ?: 'https://sojeanthonia.laravel.cloud/blog' }}" target="_blank" rel="noopener" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
-          <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">{{ $resource->category }}</span>
-          <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">{{ $resource->title }}</h3>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $resource->blurb }}</p>
-          <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">{{ $resource->read_time }} <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
+      @forelse ($blogPosts as $post)
+        <a href="{{ route('blog.show', $post) }}" class="group rounded-2xl border border-slate-100 p-6 transition hover:shadow-lg">
+          @if($post->category)
+            <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-700">{{ $post->category }}</span>
+          @endif
+          <h3 class="mt-2 text-base font-bold text-slate-900 group-hover:text-emerald-700">{{ $post->title }}</h3>
+          @if($post->excerpt)
+            <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ \Illuminate\Support\Str::limit($post->excerpt, 110) }}</p>
+          @endif
+          <span class="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">{{ $post->read_time }} min read <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i></span>
         </a>
       @empty
         <p class="col-span-full text-center text-sm text-slate-400">More reflections coming soon.</p>
@@ -357,7 +365,7 @@
     </div>
 
     <div class="mt-10 text-center">
-      <a href="https://sojeanthonia.laravel.cloud/blog" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-700 hover:text-emerald-700">
+      <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-700 hover:text-emerald-700">
         Read All Articles <i data-lucide="arrow-right" class="h-4 w-4"></i>
       </a>
     </div>

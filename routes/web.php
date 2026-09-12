@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BlogCommentController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CourseCatalogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +13,12 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // which is the imported heirs commerce storefront for courses hosted
 // locally on this app.
 Route::get('/course-catalog', [CourseCatalogController::class, 'index'])->name('course-catalog');
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::post('/blog/{post:slug}/comments', [BlogCommentController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('blog.comments.store');
 
 // The old localStorage-only course admin prototype is retired now that
 // /admin/courses (routes/admin-courses.php) is a real, database-backed

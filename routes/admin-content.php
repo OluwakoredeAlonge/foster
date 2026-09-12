@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\ExternalCourseController;
@@ -85,4 +86,13 @@ Route::prefix('testimonials')->name('admin.testimonials.')->group(function () {
     Route::put('/{testimonial}', [TestimonialController::class, 'update'])->name('update');
     Route::delete('/{testimonial}', [TestimonialController::class, 'destroy'])->name('destroy');
     Route::post('/{testimonial}/toggle', [TestimonialController::class, 'toggle'])->name('toggle');
+});
+
+Route::prefix('blog')->name('admin.blog.')->group(function () {
+    Route::get('/', [BlogPostController::class, 'index'])->name('index');
+    Route::get('/create', [BlogPostController::class, 'create'])->name('create');
+    Route::post('/', [BlogPostController::class, 'store'])->name('store');
+    Route::get('/{post}/edit', [BlogPostController::class, 'edit'])->name('edit');
+    Route::put('/{post}', [BlogPostController::class, 'update'])->name('update');
+    Route::delete('/{post}', [BlogPostController::class, 'destroy'])->name('destroy');
 });

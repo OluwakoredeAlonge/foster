@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             SiteResourceSeeder::class,
             ContactSettingSeeder::class,
             TestimonialSeeder::class,
+            BlogPostSeeder::class,
         ]);
     }
 }
