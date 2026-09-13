@@ -31,11 +31,12 @@
       <div>
         <p class="text-xs font-semibold uppercase tracking-wide text-white">Quick Links</p>
         <ul class="mt-4 space-y-2 text-sm text-slate-400">
+          <li><a href="{{ route('home') }}" class="hover:text-white">Home</a></li>
           <li><a href="{{ route('home') }}#about" class="hover:text-white">About</a></li>
           <li><a href="{{ route('home') }}#team" class="hover:text-white">Our Therapists</a></li>
           <li><a href="{{ route('course-catalog') }}" class="hover:text-white">Courses</a></li>
           <li><a href="{{ route('home') }}#books" class="hover:text-white">Books</a></li>
-          <li><a href="{{ route('home') }}#resources" class="hover:text-white">Resources</a></li>
+          <li><a href="{{ route('blog.index') }}" class="hover:text-white">Blog</a></li>
         </ul>
       </div>
       <div>

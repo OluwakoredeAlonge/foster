@@ -45,13 +45,14 @@
         </span>
       </a>
 
-      <div class="hidden items-center gap-7 lg:flex">
+      <div class="hidden items-center gap-6 lg:flex">
+        <a href="{{ route('home') }}" class="text-sm font-medium {{ request()->routeIs('home') ? 'text-emerald-700' : 'text-slate-600 hover:text-emerald-700' }}">Home</a>
         <a href="{{ route('home') }}#about" class="text-sm font-medium text-slate-600 hover:text-emerald-700">About</a>
         <a href="{{ route('home') }}#team" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Our Therapists</a>
         <a href="{{ route('home') }}#services" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Services</a>
-        <a href="{{ route('course-catalog') }}" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Courses</a>
+        <a href="{{ route('course-catalog') }}" class="text-sm font-medium {{ request()->routeIs('course-catalog') ? 'text-emerald-700' : 'text-slate-600 hover:text-emerald-700' }}">Courses</a>
         <a href="{{ route('home') }}#books" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Books</a>
-        <a href="{{ route('home') }}#resources" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Resources</a>
+        <a href="{{ route('blog.index') }}" class="text-sm font-medium {{ request()->routeIs('blog.*') ? 'text-emerald-700' : 'text-slate-600 hover:text-emerald-700' }}">Blog</a>
         <a href="{{ route('home') }}#testimonials" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Testimonials</a>
       </div>
 
@@ -68,12 +69,13 @@
 
     <div id="mobile-nav" class="hidden border-t border-slate-100 bg-white px-5 py-4 lg:hidden">
       <div class="flex flex-col gap-4">
+        <a href="{{ route('home') }}" class="text-sm font-medium text-slate-700">Home</a>
         <a href="{{ route('home') }}#about" class="text-sm font-medium text-slate-700">About</a>
         <a href="{{ route('home') }}#team" class="text-sm font-medium text-slate-700">Our Therapists</a>
         <a href="{{ route('home') }}#services" class="text-sm font-medium text-slate-700">Services</a>
         <a href="{{ route('course-catalog') }}" class="text-sm font-medium text-slate-700">Courses</a>
         <a href="{{ route('home') }}#books" class="text-sm font-medium text-slate-700">Books</a>
-        <a href="{{ route('home') }}#resources" class="text-sm font-medium text-slate-700">Resources</a>
+        <a href="{{ route('blog.index') }}" class="text-sm font-medium text-slate-700">Blog</a>
         <a href="{{ route('home') }}#testimonials" class="text-sm font-medium text-slate-700">Testimonials</a>
         <a href="{{ route('home') }}#contact" class="mt-2 inline-flex justify-center rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white">Book a Session</a>
       </div>
