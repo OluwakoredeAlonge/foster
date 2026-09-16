@@ -12,7 +12,7 @@
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
         <h2 class="text-xl font-bold text-gray-900 mb-5">{{ $member ? 'Edit Team Member' : 'Add Team Member' }}</h2>
 
-        <form method="POST" action="{{ $member ? route('admin.team-members.update', $member) : route('admin.team-members.store') }}" class="space-y-4">
+        <form method="POST" action="{{ $member ? route('admin.team-members.update', $member) : route('admin.team-members.store') }}" class="space-y-4" enctype="multipart/form-data">
             @csrf
             @if($member) @method('PUT') @endif
 
@@ -37,10 +37,18 @@
             </div>
 
             <div>
-                <label class="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">Photo URL</label>
-                <input type="url" name="photo_url" value="{{ old('photo_url', $member->photo_url ?? '') }}" placeholder="https://..."
-                    class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
-                <p class="text-xs text-gray-400 mt-1">Leave blank to show initials instead of a photo.</p>
+                <label class="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">Photo</label>
+                @if($member && $member->photo_url)
+                    <img src="{{ $member->photo_url }}" class="w-20 h-20 object-cover rounded-full border border-gray-200 mb-2">
+                    <label class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" name="remove_photo" value="1" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                        <span class="text-sm text-gray-600">Remove current photo</span>
+                    </label>
+                @endif
+                <input type="file" name="photo" accept="image/jpeg,image/png,image/webp"
+                    class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-emerald-50 file:text-emerald-700 file:text-sm file:font-semibold hover:file:bg-emerald-100">
+                @error('photo') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                <p class="text-xs text-gray-400 mt-1">Max 4MB. Leave blank to {{ $member ? 'keep the current photo' : 'show initials instead of a photo' }}.</p>
             </div>
 
             <div>

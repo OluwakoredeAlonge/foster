@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TeamMember;
+use App\Services\CloudinaryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -22,7 +23,7 @@ class TeamMemberController extends Controller
         return view('admin.team-members.form', ['member' => null]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, CloudinaryService $cloudinary): RedirectResponse
     {
         $validated = $this->validateMember($request);
 
@@ -30,9 +31,13 @@ class TeamMemberController extends Controller
         $validated['is_visible'] = $request->boolean('is_visible', true);
         $validated['is_placeholder'] = $request->boolean('is_placeholder');
 
-        TeamMember::create($validated);
+        if ($request->hasFile('photo')) {
+            $validated['photo_url'] = $cloudinary->upload($request->file('photo'), 'team');
+        }
 
-        return redirect()->route('admin.team-members.index')->with('success', "\"{$validated['name']}\" added.");
+        $member = TeamMember::create($validated);
+
+        return redirect()->route('admin.team-members.index')->with('success', "\"{$member->name}\" added.");
     }
 
     public function edit(TeamMember $teamMember): View
@@ -40,19 +45,30 @@ class TeamMemberController extends Controller
         return view('admin.team-members.form', ['member' => $teamMember]);
     }
 
-    public function update(Request $request, TeamMember $teamMember): RedirectResponse
+    public function update(Request $request, TeamMember $teamMember, CloudinaryService $cloudinary): RedirectResponse
     {
         $validated = $this->validateMember($request);
         $validated['is_visible'] = $request->boolean('is_visible', true);
         $validated['is_placeholder'] = $request->boolean('is_placeholder');
+
+        if ($request->hasFile('photo')) {
+            $cloudinary->delete($teamMember->photo_url);
+            $validated['photo_url'] = $cloudinary->upload($request->file('photo'), 'team');
+        }
+
+        if ($request->boolean('remove_photo')) {
+            $cloudinary->delete($teamMember->photo_url);
+            $validated['photo_url'] = null;
+        }
 
         $teamMember->update($validated);
 
         return redirect()->route('admin.team-members.index')->with('success', "\"{$teamMember->name}\" updated.");
     }
 
-    public function destroy(TeamMember $teamMember): RedirectResponse
+    public function destroy(TeamMember $teamMember, CloudinaryService $cloudinary): RedirectResponse
     {
+        $cloudinary->delete($teamMember->photo_url);
         $teamMember->delete();
 
         return back()->with('success', 'Team member removed.');
@@ -74,7 +90,7 @@ class TeamMemberController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'title' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string', 'max:2000'],
-            'photo_url' => ['nullable', 'url', 'max:2048'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'tags' => ['nullable', 'string', 'max:255'],
         ]);
 
@@ -82,6 +98,8 @@ class TeamMemberController extends Controller
         $validated['tags'] = $tagsInput === ''
             ? []
             : array_values(array_filter(array_map('trim', explode(',', $tagsInput))));
+
+        unset($validated['photo']);
 
         return $validated;
     }
