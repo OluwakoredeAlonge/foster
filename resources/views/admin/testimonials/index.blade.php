@@ -16,6 +16,13 @@
         </a>
     </div>
 
+    <div class="flex items-start gap-3 rounded-2xl border border-sky-200 bg-sky-50 p-4 sm:p-5 mb-6">
+        <i data-lucide="lightbulb" class="mt-0.5 h-5 w-5 shrink-0 text-sky-600"></i>
+        <p class="text-sm text-sky-900">
+            <span class="font-semibold">Tip:</span> a simple way to collect these is to make a Google Form asking clients for their name, role (e.g. "Marriage Counselling Client"), their testimonial, and a star rating. Review the responses at your own pace and add the ones you'd like to feature here — since nothing is published straight from the form, you stay in full control of what actually appears on the site.
+        </p>
+    </div>
+
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
