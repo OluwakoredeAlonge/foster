@@ -7,6 +7,7 @@
 <meta name="description" content="Fosterheirs Mental Health Consultancy is a team of licensed, faith-integrated therapists offering trauma therapy, addiction recovery, marriage counselling, and courses, led by Dr. Anthonia Yemisi Soje." />
 <script src="https://unpkg.com/lucide@latest"></script>
 @vite(['resources/css/app.css', 'resources/js/app.js'])
+<style>[x-cloak] { display: none !important; }</style>
 </head>
 <body class="bg-white text-slate-800 antialiased">
 
@@ -117,7 +118,7 @@
 </section>
 
 <!-- ============ TEAM ============ -->
-<section id="team" class="bg-slate-50 py-20 lg:py-28">
+<section id="team" class="bg-slate-50 py-20 lg:py-28" x-data="{ activeBio: null }">
   <div class="mx-auto max-w-7xl px-5 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <span class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Our Therapists</span>
@@ -130,6 +131,7 @@
 
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       @forelse ($teamMembers as $member)
+        @php $bioIsLong = mb_strlen($member->bio ?? '') > 180; @endphp
         <div class="flex flex-col rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-100">
           <div class="mx-auto flex h-24 w-24 items-center justify-center overflow-hidden rounded-full {{ $member->photo_url ? '' : 'bg-gradient-to-br from-emerald-600 to-emerald-800' }} text-2xl font-bold text-white">
             @if ($member->photo_url)
@@ -142,7 +144,15 @@
           </div>
           <h3 class="mt-5 text-base font-bold text-slate-900">{{ $member->name }}</h3>
           <p class="text-xs font-semibold uppercase tracking-wide text-emerald-700">{{ $member->title }}</p>
-          <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{{ $member->bio }}</p>
+          <p class="mt-3 line-clamp-4 text-sm leading-relaxed text-slate-600">{{ $member->bio }}</p>
+          @if ($bioIsLong)
+            <button type="button"
+                    @click="activeBio = @js(['name' => $member->name, 'title' => $member->title, 'photo' => $member->photo_url, 'initials' => $member->initials(), 'bio' => $member->bio])"
+                    class="mt-2 text-xs font-semibold text-emerald-700 hover:underline">
+              Read full bio
+            </button>
+          @endif
+          <div class="mt-auto"></div>
           @if ($member->is_placeholder)
             <span class="mx-auto mt-4 inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-semibold text-amber-800">
               <i data-lucide="clock" class="h-3 w-3"></i> Profile coming soon
@@ -158,6 +168,36 @@
       @empty
         <p class="col-span-full text-center text-sm text-slate-400">Team profiles are being updated.</p>
       @endforelse
+    </div>
+  </div>
+
+  {{-- Full-bio modal — keeps the card grid a uniform height regardless of
+       how long a therapist's real bio turns out to be. --}}
+  <div x-show="activeBio" x-cloak
+       class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 p-4"
+       @click.self="activeBio = null" @keydown.escape.window="activeBio = null">
+    <div x-show="activeBio" x-transition
+         class="max-h-[85vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-6 sm:p-8">
+      <template x-if="activeBio">
+        <div>
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-emerald-600 to-emerald-800 text-lg font-bold text-white">
+                <template x-if="activeBio.photo"><img :src="activeBio.photo" class="h-full w-full object-cover"></template>
+                <template x-if="!activeBio.photo"><span x-text="activeBio.initials"></span></template>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-slate-900" x-text="activeBio.name"></h3>
+                <p class="text-xs font-semibold uppercase tracking-wide text-emerald-700" x-text="activeBio.title"></p>
+              </div>
+            </div>
+            <button type="button" @click="activeBio = null" class="shrink-0 rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+              <i data-lucide="x" class="h-5 w-5"></i>
+            </button>
+          </div>
+          <p class="mt-5 whitespace-pre-line text-left text-sm leading-relaxed text-slate-600" x-text="activeBio.bio"></p>
+        </div>
+      </template>
     </div>
   </div>
 </section>
