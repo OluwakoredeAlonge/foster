@@ -72,30 +72,35 @@
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent">{{ old('excerpt', $post->excerpt ?? '') }}</textarea>
                     </div>
 
-                    <div x-data="editorToolbar('content_area')">
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Content <span class="text-gray-400 font-normal">(HTML supported)</span></label>
+                    <div x-data="richEditor()" x-init="init()">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Content</label>
+                        <p class="text-xs text-gray-400 mb-2">Select text, then click a button to format it — just like Word. What you see here is what visitors will see.</p>
 
                         <div class="flex flex-wrap items-center gap-1 p-2 rounded-t-xl border border-b-0 border-gray-300 bg-gray-50">
-                            <button type="button" @click="wrap('<strong>','</strong>')" title="Bold" class="editor-btn font-bold">B</button>
-                            <button type="button" @click="wrap('<em>','</em>')" title="Italic" class="editor-btn italic">I</button>
-                            <button type="button" @click="wrap('<code>','</code>')" title="Inline code" class="editor-btn font-mono text-xs">&lt;/&gt;</button>
+                            <button type="button" @mousedown.prevent="cmd('bold')" title="Bold" class="editor-btn font-bold">B</button>
+                            <button type="button" @mousedown.prevent="cmd('italic')" title="Italic" class="editor-btn italic">I</button>
+                            <button type="button" @mousedown.prevent="cmd('underline')" title="Underline" class="editor-btn underline">U</button>
                             <div class="w-px h-5 bg-gray-300 mx-1"></div>
-                            <button type="button" @click="wrapBlock('<h2>','</h2>')" title="Heading 2" class="editor-btn">H2</button>
-                            <button type="button" @click="wrapBlock('<h3>','</h3>')" title="Heading 3" class="editor-btn">H3</button>
-                            <button type="button" @click="wrapBlock('<p>','</p>')" title="Paragraph" class="editor-btn">P</button>
+                            <button type="button" @mousedown.prevent="cmd('formatBlock', 'h2')" title="Heading 2" class="editor-btn">H2</button>
+                            <button type="button" @mousedown.prevent="cmd('formatBlock', 'h3')" title="Heading 3" class="editor-btn">H3</button>
+                            <button type="button" @mousedown.prevent="cmd('formatBlock', 'p')" title="Paragraph" class="editor-btn">P</button>
                             <div class="w-px h-5 bg-gray-300 mx-1"></div>
-                            <button type="button" @click="insertLink()" title="Insert link" class="editor-btn flex items-center gap-1 text-emerald-700">
+                            <button type="button" @mousedown.prevent="insertLink()" title="Insert link" class="editor-btn flex items-center gap-1 text-emerald-700">
                                 <i data-lucide="link" class="w-3 h-3"></i> Link
                             </button>
-                            <button type="button" @click="wrapBlock('<blockquote>','</blockquote>')" title="Blockquote" class="editor-btn">&ldquo;</button>
-                            <button type="button" @click="wrap('\n<ul>\n  <li>','</li>\n</ul>')" title="Bullet list" class="editor-btn">UL</button>
-                            <button type="button" @click="wrap('\n<ol>\n  <li>','</li>\n</ol>')" title="Numbered list" class="editor-btn">OL</button>
+                            <button type="button" @mousedown.prevent="cmd('formatBlock', 'blockquote')" title="Blockquote" class="editor-btn">&ldquo;</button>
+                            <button type="button" @mousedown.prevent="cmd('insertUnorderedList')" title="Bullet list" class="editor-btn">UL</button>
+                            <button type="button" @mousedown.prevent="cmd('insertOrderedList')" title="Numbered list" class="editor-btn">OL</button>
                             <div class="w-px h-5 bg-gray-300 mx-1"></div>
-                            <button type="button" @click="insertHr()" title="Divider" class="editor-btn">—</button>
+                            <button type="button" @mousedown.prevent="cmd('insertHorizontalRule')" title="Divider" class="editor-btn">—</button>
+                            <button type="button" @mousedown.prevent="cmd('removeFormat')" title="Clear formatting" class="editor-btn text-gray-400">Clear</button>
                         </div>
 
-                        <textarea name="content" id="content_area" rows="18" placeholder="Write your article here..."
-                            class="w-full px-4 py-3 border border-gray-300 rounded-b-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent font-mono text-sm leading-relaxed">{{ old('content', $post->content ?? '') }}</textarea>
+                        <div x-ref="editor" contenteditable="true"
+                             class="rich-editor-content w-full px-4 py-3 border border-gray-300 rounded-b-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm leading-relaxed"
+                             style="min-height: 22rem" @input="sync()" @blur="sync()"></div>
+
+                        <textarea name="content" x-ref="hidden" class="hidden">{{ old('content', $post->content ?? '') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -168,54 +173,75 @@
 <style>
     .editor-btn { padding: .35rem .55rem; border-radius: .5rem; font-size: .75rem; color: #374151; }
     .editor-btn:hover { background: #e5e7eb; }
+    .editor-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* Mirrors .blog-content on the public post page so what she sees while
+       typing matches what visitors actually see. */
+    .rich-editor-content { color: #334155; }
+    .rich-editor-content:focus { outline: none; }
+    .rich-editor-content p { margin-top: 1rem; }
+    .rich-editor-content p:first-child { margin-top: 0; }
+    .rich-editor-content h2 { font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 1.5rem; margin-bottom: .5rem; }
+    .rich-editor-content h3 { font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-top: 1.25rem; margin-bottom: .4rem; }
+    .rich-editor-content a { color: #047857; text-decoration: underline; }
+    .rich-editor-content ul, .rich-editor-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+    .rich-editor-content ul { list-style: disc; }
+    .rich-editor-content ol { list-style: decimal; }
+    .rich-editor-content blockquote { margin: 1.25rem 0; padding: .25rem 1rem; border-left: 3px solid #059669; color: #475569; font-style: italic; }
+    .rich-editor-content hr { margin: 1.5rem 0; border-color: #e2e8f0; }
 </style>
 
 <script>
-    function editorToolbar(textareaId) {
+    function richEditor() {
         return {
-            get ta() { return document.getElementById(textareaId); },
+            init() {
+                try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch (e) {}
 
-            wrap(open, close) {
-                const ta = this.ta;
-                const start = ta.selectionStart, end = ta.selectionEnd;
-                const sel = ta.value.slice(start, end);
-                const replacement = open + (sel || 'text') + close;
-                ta.setRangeText(replacement, start, end, 'select');
-                if (start === end) {
-                    ta.selectionStart = start + open.length;
-                    ta.selectionEnd = start + open.length + (sel || 'text').length;
-                }
-                ta.focus();
+                const initial = this.$refs.hidden.value.trim();
+                if (!initial) return;
+
+                // Existing posts saved before this editor existed may just be
+                // plain text (no tags) — wrap it into paragraphs so it's
+                // editable the same way instead of showing as one unbroken block.
+                this.$refs.editor.innerHTML = /<[a-z][\s\S]*>/i.test(initial)
+                    ? initial
+                    : initial.split(/\n{2,}/).filter(p => p.trim() !== '').map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
             },
 
-            wrapBlock(open, close) {
-                const ta = this.ta;
-                const start = ta.selectionStart, end = ta.selectionEnd;
-                const sel = ta.value.slice(start, end).trim() || 'Your text here';
-                const replacement = '\n' + open + sel + close + '\n';
-                ta.setRangeText(replacement, start, end, 'end');
-                ta.focus();
+            sync() {
+                this.$refs.hidden.value = this.$refs.editor.innerHTML;
+            },
+
+            cmd(command, value = null) {
+                this.$refs.editor.focus();
+                document.execCommand(command, false, value);
+                this.sync();
             },
 
             insertLink() {
-                const ta = this.ta;
-                const start = ta.selectionStart, end = ta.selectionEnd;
-                const selText = ta.value.slice(start, end).trim();
+                const hasSelection = (window.getSelection()?.toString() ?? '').trim() !== '';
                 const url = prompt('Enter URL:', 'https://');
                 if (!url) return;
-                const text = selText || prompt('Link text:', url) || url;
-                const tag = `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
-                ta.setRangeText(tag, start, end, 'end');
-                ta.focus();
-            },
-
-            insertHr() {
-                const ta = this.ta;
-                const pos = ta.selectionEnd;
-                ta.setRangeText('\n<hr>\n', pos, pos, 'end');
-                ta.focus();
+                this.$refs.editor.focus();
+                if (hasSelection) {
+                    document.execCommand('createLink', false, url);
+                } else {
+                    const text = prompt('Link text:', url) || url;
+                    document.execCommand('insertHTML', false, `<a href="${url.replace(/"/g, '&quot;')}" target="_blank" rel="noopener noreferrer">${text.replace(/</g, '&lt;')}</a>`);
+                }
+                this.sync();
             },
         };
     }
+
+    // Belt-and-braces: guarantee the hidden field has the editor's latest
+    // HTML even if a click went straight from the editor to "Save Post"
+    // without a blur event reaching @blur="sync()" first.
+    document.addEventListener('submit', (e) => {
+        e.target.querySelectorAll?.('.rich-editor-content')?.forEach((editor) => {
+            const hidden = editor.parentElement?.querySelector('textarea[name="content"]');
+            if (hidden) hidden.value = editor.innerHTML;
+        });
+    }, true);
 </script>
 @endsection
