@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogPageSettingController;
 use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\ContactSettingController;
@@ -95,4 +96,9 @@ Route::prefix('blog')->name('admin.blog.')->group(function () {
     Route::get('/{post}/edit', [BlogPostController::class, 'edit'])->name('edit');
     Route::put('/{post}', [BlogPostController::class, 'update'])->name('update');
     Route::delete('/{post}', [BlogPostController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('blog-page')->name('admin.blog-page.')->group(function () {
+    Route::get('/', [BlogPageSettingController::class, 'edit'])->name('edit');
+    Route::put('/', [BlogPageSettingController::class, 'update'])->name('update');
 });

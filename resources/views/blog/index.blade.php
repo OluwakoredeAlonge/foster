@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Blog | Fosterheirs Mental Health Consultancy</title>
-<meta name="description" content="Reflections on trauma, faith, motherhood, and recovery from the Fosterheirs team." />
+<meta name="description" content="{{ $pageSettings->subheading }}" />
 <script src="https://unpkg.com/lucide@latest"></script>
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -20,11 +20,15 @@
     </a>
 
     <div class="mx-auto mt-6 max-w-2xl text-center">
-      <span class="text-xs font-semibold uppercase tracking-widest text-emerald-700">From Our Therapists</span>
-      <h1 class="mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">The Fosterheirs Blog</h1>
-      <p class="mt-4 text-base leading-relaxed text-slate-600">
-        Reflections on trauma, faith, motherhood, and recovery from the Fosterheirs team.
-      </p>
+      @if($pageSettings->eyebrow)
+        <span class="text-xs font-semibold uppercase tracking-widest text-emerald-700">{{ $pageSettings->eyebrow }}</span>
+      @endif
+      <h1 class="mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">{{ $pageSettings->heading }}</h1>
+      @if($pageSettings->subheading)
+        <p class="mt-4 text-base leading-relaxed text-slate-600">
+          {{ $pageSettings->subheading }}
+        </p>
+      @endif
     </div>
 
     @if($categories->count())
@@ -111,7 +115,7 @@
   @elseif(!$featuredPost)
     <div class="py-20 text-center">
       <i data-lucide="feather" class="mx-auto h-10 w-10 text-slate-300"></i>
-      <p class="mt-4 text-sm text-slate-400">No articles yet. Check back soon.</p>
+      <p class="mt-4 text-sm text-slate-400">{{ $pageSettings->empty_state_text }}</p>
     </div>
   @endif
 

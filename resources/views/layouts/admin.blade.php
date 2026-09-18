@@ -20,6 +20,7 @@
             ['route' => 'admin.testimonials.index', 'label' => 'Testimonials', 'icon' => 'quote'],
             ['route' => 'admin.books.index', 'label' => 'Books', 'icon' => 'book-open'],
             ['route' => 'admin.blog.index', 'label' => 'Blog', 'icon' => 'newspaper'],
+            ['route' => 'admin.blog-page.edit', 'label' => 'Blog Page', 'icon' => 'layout-template'],
             ['route' => 'admin.site-resources.index', 'label' => 'Resources', 'icon' => 'link'],
             ['route' => 'admin.contact-settings.edit', 'label' => 'Contact Settings', 'icon' => 'phone'],
             ['route' => 'admin.external-courses.index', 'label' => 'Pulled Courses', 'icon' => 'download-cloud'],

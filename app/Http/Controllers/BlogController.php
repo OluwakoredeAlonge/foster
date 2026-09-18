@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPageSetting;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -10,6 +11,7 @@ class BlogController extends Controller
 {
     public function index(Request $request): View
     {
+        $pageSettings = BlogPageSetting::current();
         $featuredPost = BlogPost::published()->where('featured', true)->latest('published_at')->first();
 
         $query = BlogPost::published()->where('featured', false);
@@ -21,7 +23,7 @@ class BlogController extends Controller
         $posts = $query->latest('published_at')->paginate(9)->withQueryString();
         $categories = BlogPost::published()->distinct()->pluck('category')->filter()->values();
 
-        return view('blog.index', compact('featuredPost', 'posts', 'categories'));
+        return view('blog.index', compact('pageSettings', 'featuredPost', 'posts', 'categories'));
     }
 
     public function show(BlogPost $post): View
@@ -29,6 +31,8 @@ class BlogController extends Controller
         abort_unless($post->status === 'published', 404);
 
         $post->increment('views');
+
+        $pageSettings = BlogPageSetting::current();
 
         $related = BlogPost::published()
             ->where('id', '!=', $post->id)
@@ -39,6 +43,6 @@ class BlogController extends Controller
 
         $comments = $post->comments()->visible()->latest()->paginate(20);
 
-        return view('blog.show', compact('post', 'related', 'comments'));
+        return view('blog.show', compact('pageSettings', 'post', 'related', 'comments'));
     }
 }

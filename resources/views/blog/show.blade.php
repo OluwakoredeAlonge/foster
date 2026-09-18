@@ -205,12 +205,12 @@
         <div class="flex items-center gap-3">
           <img src="{{ asset('images/brand/logo-mark.png') }}" alt="Fosterheirs" class="h-11 w-11 object-contain">
           <div>
-            <p class="text-sm font-bold text-slate-900">Fosterheirs Team</p>
-            <p class="text-xs text-slate-500">Mental Health Consultancy</p>
+            <p class="text-sm font-bold text-slate-900">{{ $pageSettings->author_name }}</p>
+            <p class="text-xs text-slate-500">{{ $pageSettings->author_tagline }}</p>
           </div>
         </div>
         <a href="{{ route('home') }}#contact" class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-700 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-emerald-800">
-          Book a Session <i data-lucide="arrow-right" class="h-3 w-3"></i>
+          {{ $pageSettings->author_cta_text }} <i data-lucide="arrow-right" class="h-3 w-3"></i>
         </a>
       </div>
 
