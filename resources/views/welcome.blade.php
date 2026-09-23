@@ -18,7 +18,14 @@
 <!-- ============ HERO ============ -->
 <section id="home" class="relative isolate overflow-hidden">
   <div class="absolute inset-0 -z-10">
-    <img src="{{ $landingPage->hero_image_path ?: asset('images/hero/slider2.jpg') }}" alt="" class="h-full w-full object-cover object-top" />
+    {{--
+      On mobile, object-cover crops tight to the top of the photo, which
+      brings the conference screen's own bold text right behind the
+      headline. Blurring it there (scaled up so the blur doesn't reveal
+      edges) keeps the photo's mood without fighting the heading text; on
+      larger screens the fuller crop reads fine sharp, so blur is removed.
+    --}}
+    <img src="{{ $landingPage->hero_image_path ?: asset('images/hero/fosterheirs-conference.jpg') }}" alt="" class="h-full w-full scale-110 object-cover object-top blur-sm sm:scale-100 sm:blur-none" />
     <div class="absolute inset-0 bg-gradient-to-b from-emerald-950/85 via-emerald-950/75 to-emerald-950"></div>
   </div>
 
